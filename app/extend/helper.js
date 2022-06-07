@@ -18,8 +18,8 @@ const fillText = (ctx, opt) => {
     ctx.lineWidth = 0.5;
     ctx.strokeStyle = '#000';
     ctx.beginPath();
-    ctx.lineTo(x, y + 6);
-    ctx.lineTo(x + width, y + 6);
+    ctx.lineTo(x, y + 5);
+    ctx.lineTo(x + width, y + 5);
     ctx.stroke();
   }
 };
@@ -48,14 +48,14 @@ module.exports = {
   getWidth,
   // 绘制换行文字
   fillTextWarp(ctx, opt) {
-    let { text, x, y, width, maxLines, fontSize, ...options } = opt;
+    let { text, x, y, width, maxLines, fontSize, lineHeight, ...options } = opt;
     let textWidth = 0;
     let textIndex = 0; // 每次截取的开始的索引
     for (let i = 0; i < text.length; i++) {
       textWidth += getWidth(ctx, text[i], fontSize);
       if (textWidth >= width) {
         fillText(ctx, { text: text.substring(textIndex, i), x, y, fontSize, ...options, width: textWidth });
-        y += 12;
+        y += lineHeight || 12;
         textWidth = 0;
         textIndex = i;
       }

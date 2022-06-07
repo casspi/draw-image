@@ -3,6 +3,7 @@
 const Controller = require('egg').Controller;
 const path = require('path');
 const { promisify } = require('util');
+const { getWidth } = require('../extend/helper');
 
 class HomeController extends Controller {
   async index() {
@@ -21,7 +22,7 @@ class HomeController extends Controller {
     let { ratio, saleType } = params;
     ratio = ratio * multiple;
     const { createCanvas, Image } = require('canvas');
-    const canvasHeight = saleType === 1 ? 330 : 320;
+    const canvasHeight = saleType === 1 ? 300 : 290;
     const canvas = createCanvas(375 * ratio, canvasHeight * ratio);
     const canvasCtx = canvas.getContext('2d');
 
@@ -78,14 +79,14 @@ class HomeController extends Controller {
       y += 45;
     } else {
       // 品牌型号
-      fillText(canvasCtx, { text: '品牌型号', fontSize: '10px', x: 61 / 2 + 5, y: y + 15 });
-      fillLine(canvasCtx, { sX: 5 + 61, sY: y, eX: 5 + 61, eY: y + 30 });
+      fillText(canvasCtx, { text: '品牌型号', fontSize: '10px', x: 61 / 2 + 5, y: y + 28 / 2 });
+      fillLine(canvasCtx, { sX: 5 + 61, sY: y, eX: 5 + 61, eY: y + 28 });
       const vechileNameAllLines = getLines(canvasCtx, params.vechileNameAll, '9px', 295);
       const vechileNameX = 5 + 61 + 5;
-      const vechileNameY = y + [ 15, 8 ][vechileNameAllLines - 1];
+      const vechileNameY = y + [ 14, 7 ][vechileNameAllLines - 1];
       fillTextWarp(canvasCtx, { x: vechileNameX, y: vechileNameY, text: params.vechileNameAll, width: 295, maxLines: vechileNameAllLines, color: '#666', fontSize: '9px', textAlign: 'left' });
 
-      y += 30;
+      y += 25;
       // 第二行
       fillLine(canvasCtx, { sX: 5, sY: y, eX: 370, eY: y });
       fillText(canvasCtx, { text: '成交日期', fontSize: '10px', x: 61 / 2 + 5, y: y + 10 });
@@ -185,53 +186,60 @@ class HomeController extends Controller {
     y += 20;
     // 第八行
     fillLine(canvasCtx, { sX: 5, sY: y, eX: 370, eY: y });
-    const tipsFontSize = '8px';
+    const tipsFontSize = '7px';
+    const tipsLineHeight = 10;
+    console.log(getWidth(canvasCtx, '状', '7px'));
     // 说明
     fillTextWarp(
       canvasCtx,
       {
         text: '本人竞买前已知悉竞买车辆的现状，且了解车辆详情仅供本人参考。本人签署本“成交确认单”即表明对竞买车辆的现状',
         x: 5 + 5 + 1,
-        y: y + 10,
+        y: y + 8,
         textAlign: 'left',
         width: 355,
         fontSize: tipsFontSize,
         fontWeight: 'normal',
+        lineHeight: tipsLineHeight
       }
     );
 
     fillTextWarp(
       canvasCtx,
       {
-        text: '（包括但不限于车辆外观、内饰现状、车辆机械运行状态、车辆维修记录、保险记',
-        x: 5 + 5 + 1 + 64,
-        y: y + 10 + 12,
+        text: '（包括但不限于车辆外观、内饰现状、车辆机械运行状态、车辆维修记录、保险记录等）及竞买程序无任何异议，',
+        x: 5 + 5 + 1 + 7,
+        y: y + 8 + tipsLineHeight,
         textAlign: 'left',
         width: 355,
         fontSize: tipsFontSize,
-        underline: true
+        underline: true,
+        lineHeight: tipsLineHeight
       }
     );
 
     fillTextWarp(
       canvasCtx,
       {
-        text: '录等）及竞买程序无任何异议，并予以确认。本人提车后，不以车况不符向贵方及委托方主张任何权益。支付成交价款的银行账户信息应与买受人参拍账号信息一致，即姓名、身份证等为同一人，若非同一人账户支付价款，将被原路全额退还，',
+        text: '并予以确认。本人提车后，不以车况不符向贵方及委托方主张任何权益。支付成交价款的银行账户信息应与买受人参拍账号信息一致，即姓名、身份证等为同一人，若非同一人账户支付价款，将被原路全额退还，',
         x: 5 + 5 + 1,
-        y: y + 10 + 12 * 2,
+        y: y + 8 + tipsLineHeight * 2,
         textAlign: 'left',
         width: 352,
         fontSize: tipsFontSize,
-        underline: true
+        underline: true,
+        lineHeight: tipsLineHeight
       }
     );
+
+    console.log(getWidth(canvasCtx, '参拍账号信息一致，即姓名、身份证等为同一人，若非同一人账户支付价款，将被原路全额退还，', '7px'));
 
     fillTextWarp(
       canvasCtx,
       {
-        text: '超过约定支付期限者视作违规，保证金作违约金不予退',
-        x: 5 + 5 + 1 + 160,
-        y: y + 10 + 12 * 4,
+        text: '超过约定支付期',
+        x: 5 + 5 + 1 + 301,
+        y: y + 8 + tipsLineHeight * 3,
         textAlign: 'left',
         width: 352,
         fontSize: tipsFontSize,
@@ -242,9 +250,9 @@ class HomeController extends Controller {
     fillTextWarp(
       canvasCtx,
       {
-        text: '还。',
+        text: '限者视作违规，保证金作违约金不予退还。',
         x: 5 + 5 + 1,
-        y: y + 10 + 12 * 5,
+        y: y + 8 + tipsLineHeight * 4,
         textAlign: 'left',
         width: 352,
         fontSize: tipsFontSize,
@@ -252,7 +260,7 @@ class HomeController extends Controller {
       }
     );
 
-    y = y + 10 + 12 * 6 - 5;
+    y = y + 8 + tipsLineHeight * 5 - 4;
     // 左外边框
     fillLine(canvasCtx, { sX: 5, sY: 45, eX: 5, eY: y });
     // 右外边框
