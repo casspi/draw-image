@@ -25,7 +25,7 @@
     "node": ">=10.0.0"
   },
   "scripts": {
-    "start": "egg-scripts start --daemon --title=egg-server-draw-image",
+    "start": "npm run stop && egg-scripts start --daemon --title=egg-server-draw-image",
     "stop": "egg-scripts stop --title=egg-server-draw-image",
     "dev": "egg-bin dev",
     "debug": "egg-bin debug",
