@@ -27,7 +27,7 @@ class HomeController extends Controller {
 			const canvasHeight = saleType === 1 ? 285 : 275;
 			const canvas = createCanvas(375 * ratio, canvasHeight * ratio);
 			const canvasCtx = canvas.getContext('2d');
-			registerFont(path.join(__dirname, '../public/assets/fonts/Helvetica.ttf'), { family: 'Helvetica2' });
+			registerFont(path.join(__dirname, '../public/assets/fonts/Helvetica.ttf'), { family: 'Helvetica' });
 			// 画布白色背景
 			canvasCtx.scale(ratio, ratio);
 			canvasCtx.fillStyle = '#fff';
