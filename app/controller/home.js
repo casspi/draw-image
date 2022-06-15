@@ -272,18 +272,18 @@ class HomeController extends Controller {
 			fillLine(canvasCtx, { sX: 5, sY: y, eX: 370, eY: y });
 
 			// 买受人签字
-			fillText(canvasCtx, { text: '买受人签字：', x: 5, y: y + 12, textAlign: 'left' });
+			fillText(canvasCtx, { text: '买受人签字:', x: 5, y: y + 12, textAlign: 'left' });
 			// 签名图
 			if(params.signUrl) {
 				const signImg = new Image();
-				signImg.onload = () => canvasCtx.drawImage(signImg, 5 + 50, y + 2, 54, 30);
+				signImg.onload = () => canvasCtx.drawImage(signImg, 5 + 55, y + 2, 54, 30);
 				signImg.onerror = err => { throw err; };
 				signImg.src = params.signUrl;
 			}
 			// 日期
-			fillText(canvasCtx, { text: '日期：', x: 122, y: y + 12, textAlign: 'left' });
+			fillText(canvasCtx, { text: '日期:', x: 122, y: y + 12, textAlign: 'left' });
 			fillText(canvasCtx, { text: params.signDateString, x: 152, y: y + 12, textAlign: 'left', color: '#666' });
-			fillText(canvasCtx, { text: '注意：本成交确认单涂改无效', x: 370, y: y + 12, textAlign: 'right' });
+			fillText(canvasCtx, { text: '注意:本成交确认单涂改无效', x: 370, y: y + 12, textAlign: 'right' });
 			console.log('height=>', y + 6 + 15);
 			ctx.body = {
 				code: 0,
