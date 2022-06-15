@@ -276,7 +276,7 @@ class HomeController extends Controller {
 			// 签名图
 			if(params.signUrl) {
 				const signImg = new Image();
-				signImg.onload = () => canvasCtx.drawImage(signImg, 5 + 55, y + 2, 54, 30);
+				signImg.onload = () => canvasCtx.drawImage(signImg, 5 + 55, y + 2, 54, 28);
 				signImg.onerror = err => { throw err; };
 				signImg.src = params.signUrl;
 			}
