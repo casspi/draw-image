@@ -274,10 +274,12 @@ class HomeController extends Controller {
 			// 买受人签字
 			fillText(canvasCtx, { text: '买受人签字：', x: 5, y: y + 12, textAlign: 'left' });
 			// 签名图
-			const signImg = new Image();
-			signImg.onload = () => canvasCtx.drawImage(signImg, 5 + 60, y + 6, 54, 30);
-			signImg.onerror = err => { throw err; };
-			signImg.src = params.signUrl;
+			if(params.signUrl) {
+				const signImg = new Image();
+				signImg.onload = () => canvasCtx.drawImage(signImg, 5 + 60, y + 6, 54, 30);
+				signImg.onerror = err => { throw err; };
+				signImg.src = params.signUrl;
+			}
 			// 日期
 			fillText(canvasCtx, { text: '日期：', x: 122, y: y + 12, textAlign: 'left' });
 			fillText(canvasCtx, { text: params.signDateString, x: 152, y: y + 12, textAlign: 'left', color: '#666' });
