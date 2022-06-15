@@ -4,7 +4,7 @@ const Controller = require('egg').Controller;
 const path = require('path');
 const { promisify } = require('util');
 const { createCanvas, Image, registerFont } = require('canvas');
-registerFont(path.join(__dirname, '../public/assets/fonts/STHeiti Medium.ttc'), { family: 'STHeiti' });
+registerFont(path.join(__dirname, '../public/assets/fonts/Hiragino Sans GB.ttc'), { family: 'Hiragino' });
 
 class HomeController extends Controller {
 	async index() {
