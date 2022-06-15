@@ -276,18 +276,18 @@ class HomeController extends Controller {
 			// 签名图
 			if(params.signUrl) {
 				const signImg = new Image();
-				signImg.onload = () => canvasCtx.drawImage(signImg, 5 + 60, y + 2, 54, 30);
+				signImg.onload = () => canvasCtx.drawImage(signImg, 5 + 50, y + 2, 54, 30);
 				signImg.onerror = err => { throw err; };
 				signImg.src = params.signUrl;
 			}
 			// 日期
 			fillText(canvasCtx, { text: '日期：', x: 122, y: y + 12, textAlign: 'left' });
-			fillText(canvasCtx, { text: params.signDateString, x: 142, y: y + 12, textAlign: 'left', color: '#666' });
+			fillText(canvasCtx, { text: params.signDateString, x: 152, y: y + 12, textAlign: 'left', color: '#666' });
 			fillText(canvasCtx, { text: '注意：本成交确认单涂改无效', x: 370, y: y + 12, textAlign: 'right' });
 			console.log('height=>', y + 6 + 15);
 			ctx.body = {
 				code: 0,
-				data: await promisify(canvas.toDataURL).call(canvas, 'image/jpeg', 1)
+				data: await promisify(canvas.toDataURL).call(canvas, 'image/jpg', 1)
 			};
 			ctx.logger.info('成功');
 		} catch (e) {
