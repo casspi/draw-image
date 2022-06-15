@@ -11,7 +11,7 @@ const fillText = (ctx, opt) => {
 	const { fontSize, color, text, x, y, width, height, textAlign, underline, fontWeight } = opt;
 	ctx.textAlign = textAlign || 'center';
 	ctx.fillStyle = color || '#000';
-	ctx.font = `${fontWeight || 'bold'} ${fontSize || '10px'} "Hiragino"`;// Avenir Helvetica
+	ctx.font = `${fontSize || '10px'} ${fontWeight === 'normal' ? 'MSYH' : 'MSYHBD'}`;// Avenir Helvetica
 	ctx.textBaseline = 'middle';
 	ctx.fillText(text || '-', x, y, width, height);
 	if (underline) {
