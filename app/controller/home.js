@@ -282,7 +282,7 @@ class HomeController extends Controller {
 			}
 			// 日期
 			fillText(canvasCtx, { text: '日期：', x: 122, y: y + 12, textAlign: 'left' });
-			fillText(canvasCtx, { text: params.signDateString, x: 152, y: y + 12, textAlign: 'left', color: '#666' });
+			fillText(canvasCtx, { text: params.signDateString, x: 142, y: y + 12, textAlign: 'left', color: '#666' });
 			fillText(canvasCtx, { text: '注意：本成交确认单涂改无效', x: 370, y: y + 12, textAlign: 'right' });
 			console.log('height=>', y + 6 + 15);
 			ctx.body = {
