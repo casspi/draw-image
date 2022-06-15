@@ -26,7 +26,7 @@ class HomeController extends Controller {
 			// 设备像素比
 			let { ratio, saleType } = params;
 			ratio = ratio * multiple;
-			const canvasHeight = saleType === 1 ? 285 : 275;
+			const canvasHeight = saleType === 1 ? 295 : 285;
 			const canvas = createCanvas(375 * ratio, canvasHeight * ratio);
 			const canvasCtx = canvas.getContext('2d');
 			// 画布白色背景
@@ -276,7 +276,7 @@ class HomeController extends Controller {
 			// 签名图
 			if(params.signUrl) {
 				const signImg = new Image();
-				signImg.onload = () => canvasCtx.drawImage(signImg, 5 + 60, y + 6, 54, 30);
+				signImg.onload = () => canvasCtx.drawImage(signImg, 5 + 60, y + 2, 54, 30);
 				signImg.onerror = err => { throw err; };
 				signImg.src = params.signUrl;
 			}
