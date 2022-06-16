@@ -26,8 +26,9 @@ class HomeController extends Controller {
 			// 设备像素比
 			let { ratio, saleType } = params;
 			ratio = ratio * multiple;
-			const canvasHeight = saleType === 1 ? 290 : 280;
-			const canvas = createCanvas(375 * ratio, canvasHeight * ratio);
+			const canvasWidth = 500;
+			const canvasHeight = 290;
+			const canvas = createCanvas(canvasWidth * ratio, canvasHeight * ratio);
 			const canvasCtx = canvas.getContext('2d');
 			// 画布白色背景
 			canvasCtx.scale(ratio, ratio);
@@ -35,6 +36,8 @@ class HomeController extends Controller {
 			canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
 
 			const cellHeight = 22;//单元格高度
+			const cellWidth = canvasWidth/6;
+			console.log('cellWidth', cellWidth)
 
 			// logo
 			const logo = path.join(__dirname, '../public/assets/image/', 'autostreets_logo.png');
@@ -44,7 +47,7 @@ class HomeController extends Controller {
 			img.src = logo;
 
 			// 标题
-			fillText(canvasCtx, { text: params.title, x: 375 / 2, y: 10 });
+			fillText(canvasCtx, { text: params.title, x: canvasWidth / 2, y: 10 });
 
 			// 打印时间
 			fillText(canvasCtx, { text: '打印时间:', fontSize: '8px', x: 5, y: 27 + 5, textAlign: 'left' });
@@ -52,9 +55,9 @@ class HomeController extends Controller {
 			fillText(canvasCtx, { text: params.printTimeString, fontSize: '8px', fontWeight: 'normal', color: '#666', x: 5 + text.width, y: 27 + 5, textAlign: 'left' });
 
 			// 编号
-			fillText(canvasCtx, { text: params.orderNo, fontSize: '8px', fontWeight: 'normal', color: '#666', x: 375 - 5, y: 27 + 5, textAlign: 'right' });
+			fillText(canvasCtx, { text: params.orderNo, fontSize: '8px', fontWeight: 'normal', color: '#666', x: canvasWidth - 5, y: 27 + 5, textAlign: 'right' });
 			text = canvasCtx.measureText(params.orderNo);
-			fillText(canvasCtx, { text: '编号:', fontSize: '8px', color: '#000', x: 375 - 5 - text.width, y: 27 + 5, textAlign: 'right' });
+			fillText(canvasCtx, { text: '编号:', fontSize: '8px', color: '#000', x: canvasWidth - 5 - text.width, y: 27 + 5, textAlign: 'right' });
 
 			// 每行起点 y坐标
 			// 第一行
@@ -64,8 +67,8 @@ class HomeController extends Controller {
 			fillLine(canvasCtx, { sX: 5, sY: y, eX: 370, eY: y });
 			if (params.saleType === 1) { // 1 同步拍, 2: '在线拍',3: '即时拍',4: '联合拍',5: '全网拍', 6: '专场拍'
 				// 拍卖会
-				fillText(canvasCtx, { text: '拍卖会', fontSize: filedNameSize, x: 61 / 2 + 5, y: y + (cellHeight / 2) });
-				fillLine(canvasCtx, { sX: 5 + 61, sY: y, eX: 5 + 61, eY: y + cellHeight });
+				fillText(canvasCtx, { text: '拍卖会', fontSize: filedNameSize, x: cellWidth / 2 + 5, y: y + (cellHeight / 2) });
+				fillLine(canvasCtx, { sX: 5 + cellWidth, sY: y, eX: 5 + cellWidth, eY: y + cellHeight });
 				fillText(canvasCtx, { text: params.auctionTitle, fontSize: '9px', color: '#666', x: 5 + 62 + 5, y: y + (cellHeight / 2), textAlign: 'left' });
 
 				y += cellHeight;
