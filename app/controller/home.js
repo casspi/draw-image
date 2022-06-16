@@ -26,7 +26,7 @@ class HomeController extends Controller {
 			// 设备像素比
 			let { ratio, saleType } = params;
 			ratio = ratio * multiple;
-			const canvasWidth = 580;//图片宽度
+			const canvasWidth = 680;//图片宽度
 			const canvasPadding = 5;//内边距
 			const canvasHeight = 290;//高度
 			const innerWidth = canvasWidth - canvasPadding * 2;//内容区宽度
@@ -136,7 +136,7 @@ class HomeController extends Controller {
 			// 佣金
 			fillText(canvasCtx, { text: '佣金', fontSize: filedNameSize, x: canvasPadding + cellWidth * 4 + cellWidth / 2, y: y + (cellHeight / 2) });
 			fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 5, sY: y, eX: canvasPadding + cellWidth * 5, eY: y + cellHeight });
-			fillText(canvasCtx, { text: params.buyerCommissionFeeString ? (`¥ ${params.buyerCommissionFeeString}`) : '', fontSize: '9px', color: '#666', x: canvasPadding + cellWidth * 5 + cellWidth / 2, y: y + (cellHeight / 2) + 1 });
+			fillText(canvasCtx, { text: params.buyerCommissionFeeString ? (`¥ ${params.buyerCommissionFeeString}`) : '', fontSize: '9px', color: '#666', x: canvasPadding + cellWidth * 5 + cellWidth / 2 - 4, y: y + (cellHeight / 2) + 1 });
 
 			// 第五行
 			y += cellHeight;
@@ -152,7 +152,7 @@ class HomeController extends Controller {
 			fillText(canvasCtx, { text: params.licenseFeeString ? (`¥ ${params.licenseFeeString}`) : '', fontSize: '9px', color: '#666', x: 5 + cellWidth * 3 + cellWidth / 2, y: y + (cellHeight / 2) + 1 });
 			fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 4, sY: y, eX: canvasPadding + cellWidth * 4, eY: y + cellHeight });
 			fillText(canvasCtx, { text: '储运费', fontSize: filedNameSize, x: canvasPadding + cellWidth * 4 + cellWidth / 2, y: y + (cellHeight / 2) });
-			fillText(canvasCtx, { text: params.exWarehouseFeeString ? (`¥ ${params.exWarehouseFeeString}`) : '', fontSize: '9px', color: '#666', x: 5 + cellWidth * 5 + cellWidth / 2, y: y + (cellHeight / 2) + 1 });
+			fillText(canvasCtx, { text: params.exWarehouseFeeString ? (`¥ ${params.exWarehouseFeeString}`) : '', fontSize: '9px', color: '#666', x: 5 + cellWidth * 5 + cellWidth / 2 - 4, y: y + (cellHeight / 2) + 1 });
 			fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 5, sY: y, eX: canvasPadding + cellWidth * 5, eY: y + cellHeight });
 
 			y += cellHeight;
@@ -174,12 +174,12 @@ class HomeController extends Controller {
 				fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 2, sY: y, eX: canvasPadding + cellWidth * 2, eY: y + cellHeight });
 				fillText(canvasCtx, { text: '登记姓名', fontSize: filedNameSize, x: canvasPadding + cellWidth * 2 + cellWidth / 2, y: y + (cellHeight / 2) });
 				fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 3, sY: y, eX: canvasPadding + cellWidth * 3, eY: y + cellHeight });
-				autoFillText(canvasCtx, { text: params.bidderName, fontSize: '9px', color: '#666', width: cellWidth, height: cellHeight, x: canvasPadding + cellWidth * 3 + (cellWidth) / 2, y });
+				autoFillText(canvasCtx, { text: params.bidderName, fontSize: '9px', color: '#666', width: cellWidth - 10, height: cellHeight, x: canvasPadding + cellWidth * 3 + (cellWidth) / 2, y });
 				fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 4, sY: y, eX: canvasPadding + cellWidth * 4, eY: y + cellHeight });
 				// 开单人
 				fillText(canvasCtx, { text: '开单人', fontSize: filedNameSize, x: canvasPadding + cellWidth * 4 + cellWidth / 2, y: y + (cellHeight / 2) });
 				fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 5, sY: y, eX: canvasPadding + cellWidth * 5, eY: y + cellHeight });
-				fillText(canvasCtx, { text: params.operator, fontSize: '9px', color: '#666', x: canvasPadding + cellWidth * 5 + cellWidth / 2, y: y + (cellHeight / 2) });
+				fillText(canvasCtx, { text: params.operator, fontSize: '9px', color: '#666', x: canvasPadding + cellWidth * 5 + cellWidth / 2 - 4, y: y + (cellHeight / 2) });
 			} else {
 				// 买受人
 				fillText(canvasCtx, { text: '买受人', fontSize: filedNameSize, x: canvasPadding + cellWidth / 2, y: y + (cellHeight / 2) });
@@ -189,7 +189,7 @@ class HomeController extends Controller {
 				// 开单人
 				fillText(canvasCtx, { text: '开单人', fontSize: filedNameSize, x: canvasPadding + cellWidth * 4 + cellWidth / 2, y: y + (cellHeight / 2) });
 				fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 5, sY: y, eX: canvasPadding + cellWidth * 5, eY: y + cellHeight });
-				fillText(canvasCtx, { text: params.operator, fontSize: '9px', color: '#666', x: canvasPadding + cellWidth * 5 + cellWidth / 2, y: y + (cellHeight / 2) });
+				fillText(canvasCtx, { text: params.operator, fontSize: '9px', color: '#666', x: canvasPadding + cellWidth * 5 + cellWidth / 2 - 4, y: y + (cellHeight / 2) });
 			}
 
 			y += cellHeight;
