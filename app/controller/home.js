@@ -47,14 +47,14 @@ class HomeController extends Controller {
 			fillText(canvasCtx, { text: params.title, x: 375 / 2, y: 10 });
 
 			// 打印时间
-			fillText(canvasCtx, { text: '打印时间：', fontSize: '8px', x: 5, y: 27 + 5, textAlign: 'left' });
-			let text = canvasCtx.measureText('打印时间：');
+			fillText(canvasCtx, { text: '打印时间:', fontSize: '8px', x: 5, y: 27 + 5, textAlign: 'left' });
+			let text = canvasCtx.measureText('打印时间:');
 			fillText(canvasCtx, { text: params.printTimeString, fontSize: '8px', fontWeight: 'normal', color: '#666', x: 5 + text.width, y: 27 + 5, textAlign: 'left' });
 
 			// 编号
 			fillText(canvasCtx, { text: params.orderNo, fontSize: '8px', fontWeight: 'normal', color: '#666', x: 375 - 5, y: 27 + 5, textAlign: 'right' });
 			text = canvasCtx.measureText(params.orderNo);
-			fillText(canvasCtx, { text: '编号：', fontSize: '8px', color: '#000', x: 375 - 5 - text.width, y: 27 + 5, textAlign: 'right' });
+			fillText(canvasCtx, { text: '编号:', fontSize: '8px', color: '#000', x: 375 - 5 - text.width, y: 27 + 5, textAlign: 'right' });
 
 			// 每行起点 y坐标
 			// 第一行
