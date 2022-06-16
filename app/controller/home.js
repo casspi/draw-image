@@ -59,7 +59,7 @@ class HomeController extends Controller {
 			// 编号
 			fillText(canvasCtx, { text: params.orderNo, fontSize: '8px', fontWeight: 'normal', color: '#666', x: canvasWidth - canvasPadding - 5, y: 32 + canvasPadding, textAlign: 'right' });
 			text = canvasCtx.measureText(params.orderNo);
-			fillText(canvasCtx, { text: '编号：', fontSize: '8px', color: '#000', x: canvasWidth - canvasPadding - text.width, y: 32 + canvasPadding, textAlign: 'right' });
+			fillText(canvasCtx, { text: '编号：', fontSize: '8px', color: '#000', x: canvasWidth - canvasPadding - text.width - 5, y: 32 + canvasPadding, textAlign: 'right' });
 
 			// 每行起点 y坐标
 			// 第一行
@@ -85,7 +85,7 @@ class HomeController extends Controller {
 				fillText(canvasCtx, { text: '品牌型号', fontSize: filedNameSize, x: canvasPadding + cellWidth * 2 + cellWidth / 2, y: y + 30 / 2 });
 				fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 3, sY: y, eX: canvasPadding + cellWidth * 3, eY: y + 30 });
 				const vechileNameX = canvasPadding + cellWidth * 3 + (cellWidth * 3) / 2 - 10;
-				autoFillText(canvasCtx, { text: params.vechileNameAll, fontSize: '9px', color: '#666', width: cellWidth * 3 - 28, height: 30, x: vechileNameX, y, paddingTop: 5, lineHeight: (cellHeight / 2) });
+				autoFillText(canvasCtx, { text: params.vechileNameAll, fontSize: '9px', color: '#666', width: cellWidth * 3 - 30, height: 30, x: vechileNameX, y, paddingTop: 5, lineHeight: (cellHeight / 2) });
 
 				y += 30;
 			} else {
@@ -197,7 +197,7 @@ class HomeController extends Controller {
 			fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth, eY: y });
 			const tipsFontSize = '6px';
 			const tipsLineHeight = 10;
-			console.log(getWidth(canvasCtx, '款，将被原路全额退还，', '6px'));
+			console.log(getWidth(canvasCtx, '人提车后，不以车况不符向贵方及委托方主张任何权益。支付成交价款的银行账户信息应与买受人参拍账号信息一致，即姓名、身份证等为同一人，若非同一人账户支付价款，将被原路全额退还，', '6px'));
 			// 说明
 			fillTextWarp(
 				canvasCtx,
@@ -216,7 +216,7 @@ class HomeController extends Controller {
 			fillTextWarp(
 				canvasCtx,
 				{
-					text: '（包括但不限于车辆外观、内饰现状、车辆机械运行状态、车辆维修记录、保险记录等）及',
+					text: '（包括但不限于车辆外观、内饰现状、车辆机械运行状态、车辆维修记录、保险记录等）及竞买程序无任何异议，并予以确认。本',
 					x: canvasPadding + 5 + 1 + 310,
 					y: y + 8,
 					textAlign: 'left',
@@ -230,7 +230,7 @@ class HomeController extends Controller {
 			fillTextWarp(
 				canvasCtx,
 				{
-					text: '竞买程序无任何异议，并予以确认。本人提车后，不以车况不符向贵方及委托方主张任何权益。支付成交价款的银行账户信息应与买受人参拍账号信息一致，即姓名、身份证等为同一人，若非同一人账户支付价款，将被原路全额退还，',
+					text: '人提车后，不以车况不符向贵方及委托方主张任何权益。支付成交价款的银行账户信息应与买受人参拍账号信息一致，即姓名、身份证等为同一人，若非同一人账户支付价款，将被原路全额退还，',
 					x: canvasPadding + 5 + 1,
 					y: y + 8 + tipsLineHeight * 1,
 					textAlign: 'left',
@@ -244,8 +244,21 @@ class HomeController extends Controller {
 			fillTextWarp(
 				canvasCtx,
 				{
-					text: '超过约定支付期限者视作违规，保证金作违约金不予退还。',
-					x: canvasPadding + 5 + 1 + 66,
+					text: '超过约定支付期限者视作违规，保证金作违约金不予',
+					x: canvasPadding + 5 + 1 + 516,
+					y: y + 8 + tipsLineHeight * 1,
+					textAlign: 'left',
+					width: 352,
+					fontSize: tipsFontSize,
+					fontWeight: 'normal',
+				}
+			);
+
+			fillTextWarp(
+				canvasCtx,
+				{
+					text: '退还。',
+					x: canvasPadding + 5 + 1,
 					y: y + 8 + tipsLineHeight * 2,
 					textAlign: 'left',
 					width: 352,
