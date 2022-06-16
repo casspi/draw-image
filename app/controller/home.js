@@ -18,7 +18,7 @@ class HomeController extends Controller {
 		ctx.logger.info('request=>', ctx.request.body);
 		try {
 			const { fillText, autoFillText, fillTextWarp, getLines, fillLine, getWidth } = ctx.helper;
-			console.log(ctx.request.body);
+			// console.log(ctx.request.body);
 			const params = ctx.request.body;
 
 			// 图片放大倍数
@@ -87,11 +87,9 @@ class HomeController extends Controller {
 				// 品牌型号
 				fillText(canvasCtx, { text: '品牌型号', fontSize: filedNameSize, x: 61 / 2 + 5, y: y + 25 / 2 });
 				fillLine(canvasCtx, { sX: 5 + 61, sY: y, eX: 5 + 61, eY: y + 28 });
-				const vechileNameAllLines = getLines(canvasCtx, params.vechileNameAll, '9px', 295);
 				const vechileNameX = 5 + 61 + 5;
-				const vechileNameY = y + [ 14, 7 ][vechileNameAllLines - 1];
-				fillTextWarp(canvasCtx, { x: vechileNameX, y: vechileNameY, text: params.vechileNameAll, width: 295, maxLines: vechileNameAllLines, color: '#666', fontSize: '9px', textAlign: 'left' });
-
+				autoFillText(canvasCtx, { text: params.vechileNameAll, fontSize: '9px', color: '#666', width: 295, height: 25, x: vechileNameX, y, textAlign: 'left' });
+				
 				y += 25;
 				// 第二行
 				fillLine(canvasCtx, { sX: 5, sY: y, eX: 370, eY: y });
