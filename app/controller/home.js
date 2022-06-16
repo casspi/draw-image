@@ -26,8 +26,10 @@ class HomeController extends Controller {
 			// 设备像素比
 			let { ratio, saleType } = params;
 			ratio = ratio * multiple;
-			const canvasWidth = 500;
-			const canvasHeight = 290;
+			const canvasWidth = 580;//图片宽度
+			const canvasPadding = 5;//内边距
+			const canvasHeight = 290;//高度
+			const innerWidth = canvasWidth - canvasPadding * 2;//内容区宽度
 			const canvas = createCanvas(canvasWidth * ratio, canvasHeight * ratio);
 			const canvasCtx = canvas.getContext('2d');
 			// 画布白色背景
@@ -42,7 +44,7 @@ class HomeController extends Controller {
 			// logo
 			const logo = path.join(__dirname, '../public/assets/image/', 'autostreets_logo.png');
 			const img = new Image();
-			img.onload = () => canvasCtx.drawImage(img, 5, 5, 76, 17);
+			img.onload = () => canvasCtx.drawImage(img, canvasPadding, canvasPadding, 117.5, 26);
 			img.onerror = err => { throw err; };
 			img.src = logo;
 
@@ -50,158 +52,158 @@ class HomeController extends Controller {
 			fillText(canvasCtx, { text: params.title, x: canvasWidth / 2, y: 10 });
 
 			// 打印时间
-			fillText(canvasCtx, { text: '打印时间:', fontSize: '8px', x: 5, y: 27 + 5, textAlign: 'left' });
-			let text = canvasCtx.measureText('打印时间:');
-			fillText(canvasCtx, { text: params.printTimeString, fontSize: '8px', fontWeight: 'normal', color: '#666', x: 5 + text.width, y: 27 + 5, textAlign: 'left' });
+			fillText(canvasCtx, { text: '打印时间：', fontSize: '8px', x: canvasPadding, y: 32 + canvasPadding, textAlign: 'left' });
+			let text = canvasCtx.measureText('打印时间：');
+			fillText(canvasCtx, { text: params.printTimeString, fontSize: '8px', fontWeight: 'normal', color: '#666', x: canvasPadding + text.width, y: 32 + canvasPadding, textAlign: 'left' });
 
 			// 编号
-			fillText(canvasCtx, { text: params.orderNo, fontSize: '8px', fontWeight: 'normal', color: '#666', x: canvasWidth - 5, y: 27 + 5, textAlign: 'right' });
+			fillText(canvasCtx, { text: params.orderNo, fontSize: '8px', fontWeight: 'normal', color: '#666', x: canvasWidth - canvasPadding - 5, y: 32 + canvasPadding, textAlign: 'right' });
 			text = canvasCtx.measureText(params.orderNo);
-			fillText(canvasCtx, { text: '编号:', fontSize: '8px', color: '#000', x: canvasWidth - 5 - text.width, y: 27 + 5, textAlign: 'right' });
+			fillText(canvasCtx, { text: '编号：', fontSize: '8px', color: '#000', x: canvasWidth - canvasPadding - text.width, y: 32 + canvasPadding, textAlign: 'right' });
 
 			// 每行起点 y坐标
 			// 第一行
-			let y = 45;
-			const filedNameSize = '9px';//表名字号
-			const filedValueSize = '9px';//值字号
-			fillLine(canvasCtx, { sX: 5, sY: y, eX: 370, eY: y });
+			let y = 50;
+			const filedNameSize = '9px';//字段名 字号
+			const filedValueSize = '9px';//值 字号
+			fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth, eY: y });
 			if (params.saleType === 1) { // 1 同步拍, 2: '在线拍',3: '即时拍',4: '联合拍',5: '全网拍', 6: '专场拍'
 				// 拍卖会
-				fillText(canvasCtx, { text: '拍卖会', fontSize: filedNameSize, x: cellWidth / 2 + 5, y: y + (cellHeight / 2) });
-				fillLine(canvasCtx, { sX: 5 + cellWidth, sY: y, eX: 5 + cellWidth, eY: y + cellHeight });
-				fillText(canvasCtx, { text: params.auctionTitle, fontSize: '9px', color: '#666', x: 5 + 62 + 5, y: y + (cellHeight / 2), textAlign: 'left' });
+				fillText(canvasCtx, { text: '拍卖会', fontSize: filedNameSize, x: cellWidth / 2 + canvasPadding, y: y + (cellHeight / 2) });
+				fillLine(canvasCtx, { sX: canvasPadding + cellWidth, sY: y, eX: canvasPadding + cellWidth, eY: y + cellHeight });
+				fillText(canvasCtx, { text: params.auctionTitle, fontSize: '9px', color: '#666', x: canvasPadding + cellWidth + 10, y: y + (cellHeight / 2), textAlign: 'left' });
 
 				y += cellHeight;
 				// 第二行
-				fillLine(canvasCtx, { sX: 5, sY: y, eX: 370, eY: y });
+				fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth, eY: y });
 				// 拍品序号
-				fillText(canvasCtx, { text: '拍品序号', fontSize: filedNameSize, x: 5 + 30.5, y: y + 30 / 2 });
-				fillLine(canvasCtx, { sX: 5 + 61, sY: y, eX: 5 + 61, eY: y + 30 });
-				fillText(canvasCtx, { text: params.auctionVehicleOrder, fontSize: '9px', color: '#666', x: 5 + 61 + 30.5, y: y + 30 / 2 });
-				fillLine(canvasCtx, { sX: 5 + 61 + 61, sY: y, eX: 5 + 61 + 61, eY: y + 45 });
+				fillText(canvasCtx, { text: '拍品序号', fontSize: filedNameSize, x: canvasPadding + cellWidth / 2, y: y + 30 / 2 });
+				fillLine(canvasCtx, { sX: canvasPadding + cellWidth, sY: y, eX: canvasPadding + cellWidth, eY: y + 30 });
+				fillText(canvasCtx, { text: params.auctionVehicleOrder, fontSize: '9px', color: '#666', x: canvasPadding + cellWidth + cellWidth/2, y: y + 30 / 2 });
+				fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 2, sY: y, eX: canvasPadding + cellWidth * 2, eY: y + 45 });
 				// 品牌型号
-				fillText(canvasCtx, { text: '品牌型号', fontSize: filedNameSize, x: 5 + 61 * 2 + 30.5, y: y + 30 / 2 });
-				fillLine(canvasCtx, { sX: 5 + 61 * 3, sY: y, eX: 5 + 61 * 3, eY: y + 30 });
-				const vechileNameX = 5 + 61 * 3 + 91;
-				autoFillText(canvasCtx, { text: params.vechileNameAll, fontSize: '9px', color: '#666', width: 170, height: 30, x: vechileNameX, y, paddingTop: 5, lineHeight: (cellHeight / 2) });
+				fillText(canvasCtx, { text: '品牌型号', fontSize: filedNameSize, x: canvasPadding + cellWidth * 2 + cellWidth / 2, y: y + 30 / 2 });
+				fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 3, sY: y, eX: canvasPadding + cellWidth * 3, eY: y + 30 });
+				const vechileNameX = canvasPadding + cellWidth * 3 + (cellWidth * 3) / 2 - 10;
+				autoFillText(canvasCtx, { text: params.vechileNameAll, fontSize: '9px', color: '#666', width: cellWidth * 3 - 28, height: 30, x: vechileNameX, y, paddingTop: 5, lineHeight: (cellHeight / 2) });
 
 				y += 30;
 			} else {
 				// 品牌型号
-				fillText(canvasCtx, { text: '品牌型号', fontSize: filedNameSize, x: 61 / 2 + 5, y: y + 25 / 2 });
-				fillLine(canvasCtx, { sX: 5 + 61, sY: y, eX: 5 + 61, eY: y + 28 });
-				const vechileNameX = 5 + 61 + 5;
-				autoFillText(canvasCtx, { text: params.vechileNameAll, fontSize: '9px', color: '#666', width: 295, height: 25, x: vechileNameX, y, textAlign: 'left' });
+				fillText(canvasCtx, { text: '品牌型号', fontSize: filedNameSize, x: cellWidth / 2 + canvasPadding, y: y + 25 / 2 });
+				fillLine(canvasCtx, { sX: canvasPadding + cellWidth, sY: y, eX: canvasPadding + cellWidth, eY: y + 25 });
+				const vechileNameX = canvasPadding + cellWidth + 10;
+				autoFillText(canvasCtx, { text: params.vechileNameAll, fontSize: '9px', color: '#666', width: cellWidth * 5 - 20, height: 25, x: vechileNameX, y, textAlign: 'left' });
 				
 				y += 25;
 				// 第二行
-				fillLine(canvasCtx, { sX: 5, sY: y, eX: 370, eY: y });
-				fillText(canvasCtx, { text: '成交日期', fontSize: filedNameSize, x: 61 / 2 + 5, y: y + (cellHeight / 2) });
-				fillLine(canvasCtx, { sX: 5 + 61, sY: y, eX: 5 + 61, eY: y + cellHeight });
-				fillText(canvasCtx, { text: params.bidderTimeString, fontSize: '9px', x: 5 + 61 + 61 / 2, y: y + (cellHeight / 2) + 1, color: '#666' });
-				fillLine(canvasCtx, { sX: 5 + 61 * 2, sY: y, eX: 5 + 61 * 2, eY: y + cellHeight });
-				fillText(canvasCtx, { text: '竞拍城市', fontSize: filedNameSize, x: 5 + 61 * 2 + 61 / 2, y: y + (cellHeight / 2) });
-				fillLine(canvasCtx, { sX: 5 + 61 * 3, sY: y, eX: 5 + 61 * 3, eY: y + cellHeight });
-				fillText(canvasCtx, { text: params.city, fontSize: '9px', x: 5 + 61 * 3 + 5, y: y + (cellHeight / 2), color: '#666', textAlign: 'left' });
+				fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth, eY: y });
+				fillText(canvasCtx, { text: '成交日期', fontSize: filedNameSize, x: cellWidth / 2 + canvasPadding, y: y + (cellHeight / 2) });
+				fillLine(canvasCtx, { sX: canvasPadding + cellWidth, sY: y, eX: canvasPadding + cellWidth, eY: y + cellHeight });
+				fillText(canvasCtx, { text: params.bidderTimeString, fontSize: '9px', x: canvasPadding + cellWidth + cellWidth / 2, y: y + (cellHeight / 2) + 1, color: '#666' });
+				fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 2, sY: y, eX: canvasPadding + cellWidth * 2, eY: y + cellHeight });
+				fillText(canvasCtx, { text: '竞拍城市', fontSize: filedNameSize, x: canvasPadding + cellWidth * 2 + cellWidth / 2, y: y + (cellHeight / 2) });
+				fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 3, sY: y, eX: canvasPadding + cellWidth * 3, eY: y + cellHeight });
+				fillText(canvasCtx, { text: params.city, fontSize: '9px', x: canvasPadding + cellWidth * 3 + 10, y: y + (cellHeight / 2), color: '#666', textAlign: 'left' });
 				y += cellHeight;
 			}
 
 			// 第三行
-			fillLine(canvasCtx, { sX: 5, sY: y, eX: 370, eY: y });
+			fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth, eY: y });
 			// 原车牌号
-			fillText(canvasCtx, { text: '原车牌号', fontSize: filedNameSize, x: 5 + 61 / 2, y: y + (cellHeight / 2) });
-			fillLine(canvasCtx, { sX: 5 + 61, sY: y, eX: 5 + 61, eY: y + cellHeight });
-			fillText(canvasCtx, { text: params.licenseCode, fontSize: '9px', x: 5 + 61 + 30.5, y: y + (cellHeight / 2), color: '#666' });
-			fillLine(canvasCtx, { sX: 5 + 61 * 2, sY: y, eX: 5 + 61 * 2, eY: y + cellHeight });
+			fillText(canvasCtx, { text: '原车牌号', fontSize: filedNameSize, x: canvasPadding + cellWidth / 2, y: y + (cellHeight / 2) });
+			fillLine(canvasCtx, { sX: canvasPadding + cellWidth, sY: y, eX: canvasPadding + cellWidth, eY: y + cellHeight });
+			fillText(canvasCtx, { text: params.licenseCode, fontSize: '9px', x: canvasPadding + cellWidth + cellWidth / 2, y: y + (cellHeight / 2), color: '#666' });
+			fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 2, sY: y, eX: canvasPadding + cellWidth * 2, eY: y + cellHeight });
 			// 车架号
-			fillText(canvasCtx, { text: '车架号', fontSize: filedNameSize, x: 5 + 61 * 2 + 61 / 2, y: y + (cellHeight / 2) });
-			fillLine(canvasCtx, { sX: 5 + 61 * 3, sY: y, eX: 5 + 61 * 3, eY: y + cellHeight });
-			fillText(canvasCtx, { text: params.vinCode, fontSize: '9px', x: 5 + 61 * 3 + 5, y: y + (cellHeight / 2) + 1, textAlign: 'left', color: '#666' });
+			fillText(canvasCtx, { text: '车架号', fontSize: filedNameSize, x: canvasPadding + cellWidth * 2 + cellWidth / 2, y: y + (cellHeight / 2) });
+			fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 3, sY: y, eX: canvasPadding + cellWidth * 3, eY: y + cellHeight });
+			fillText(canvasCtx, { text: params.vinCode, fontSize: '9px', x: canvasPadding + cellWidth * 3 + 10, y: y + (cellHeight / 2) + 1, textAlign: 'left', color: '#666' });
 
 			y += cellHeight;
 			// 第四行
-			fillLine(canvasCtx, { sX: 5, sY: y, eX: 370, eY: y });
+			fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth, eY: y });
 			// 成交价
-			fillText(canvasCtx, { text: '成交价', fontSize: filedNameSize, x: 5 + 61 / 2, y: y + (cellHeight / 2) + 1 });
-			fillLine(canvasCtx, { sX: 5 + 61, sY: y, eX: 5 + 61, eY: y + cellHeight });
-			fillText(canvasCtx, { text: params.finalPriceString ? (`¥ ${params.finalPriceString}`) : '', fontSize: '9px', color: '#666', x: 5 + 61 + 61 / 2, y: y + (cellHeight / 2) + 1 });
-			fillLine(canvasCtx, { sX: 5 + 61 * 2, sY: y, eX: 5 + 61 * 2, eY: y + cellHeight });
+			fillText(canvasCtx, { text: '成交价', fontSize: filedNameSize, x: canvasPadding + cellWidth / 2, y: y + (cellHeight / 2) + 1 });
+			fillLine(canvasCtx, { sX: canvasPadding + cellWidth, sY: y, eX: canvasPadding + cellWidth, eY: y + cellHeight });
+			fillText(canvasCtx, { text: params.finalPriceString ? (`¥ ${params.finalPriceString}`) : '', fontSize: '9px', color: '#666', x: canvasPadding + cellWidth + cellWidth / 2, y: y + (cellHeight / 2) + 1 });
+			fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 2, sY: y, eX: canvasPadding + cellWidth * 2, eY: y + cellHeight });
 			// 佣金类型
-			fillText(canvasCtx, { text: '佣金类型', fontSize: filedNameSize, x: 5 + 61 * 2 + 61 / 2, y: y + (cellHeight / 2) });
-			fillLine(canvasCtx, { sX: 5 + 61 * 3, sY: y, eX: 5 + 61 * 3, eY: y + cellHeight });
-			fillText(canvasCtx, { text: params.commissionType, fontSize: '9px', color: '#666', x: 5 + 61 * 3 + 61 / 2, y: y + (cellHeight / 2) });
-			fillLine(canvasCtx, { sX: 5 + 61 * 4, sY: y, eX: 5 + 61 * 4, eY: y + cellHeight });
+			fillText(canvasCtx, { text: '佣金类型', fontSize: filedNameSize, x: canvasPadding + cellWidth * 2 + cellWidth / 2, y: y + (cellHeight / 2) });
+			fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 3, sY: y, eX: canvasPadding + cellWidth * 3, eY: y + cellHeight });
+			fillText(canvasCtx, { text: params.commissionType, fontSize: '9px', color: '#666', x: canvasPadding + cellWidth * 3 + cellWidth / 2, y: y + (cellHeight / 2) });
+			fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 4, sY: y, eX: canvasPadding + cellWidth * 4, eY: y + cellHeight });
 			// 佣金
-			fillText(canvasCtx, { text: '佣金', fontSize: filedNameSize, x: 5 + 61 * 4 + 61 / 2, y: y + (cellHeight / 2) });
-			fillLine(canvasCtx, { sX: 5 + 61 * 5, sY: y, eX: 5 + 61 * 5, eY: y + cellHeight });
-			fillText(canvasCtx, { text: params.buyerCommissionFeeString ? (`¥ ${params.buyerCommissionFeeString}`) : '', fontSize: '9px', color: '#666', x: 5 + 61 * 5 + 61 / 2, y: y + (cellHeight / 2) + 1 });
+			fillText(canvasCtx, { text: '佣金', fontSize: filedNameSize, x: canvasPadding + cellWidth * 4 + cellWidth / 2, y: y + (cellHeight / 2) });
+			fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 5, sY: y, eX: canvasPadding + cellWidth * 5, eY: y + cellHeight });
+			fillText(canvasCtx, { text: params.buyerCommissionFeeString ? (`¥ ${params.buyerCommissionFeeString}`) : '', fontSize: '9px', color: '#666', x: canvasPadding + cellWidth * 5 + cellWidth / 2, y: y + (cellHeight / 2) + 1 });
 
 			// 第五行
 			y += cellHeight;
-			fillLine(canvasCtx, { sX: 5, sY: y, eX: 370, eY: y });
+			fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth, eY: y });
 
 			// 成交总额
-			fillText(canvasCtx, { text: '成交总额', fontSize: filedNameSize, x: 5 + 61 / 2, y: y + (cellHeight / 2) });
-			fillLine(canvasCtx, { sX: 5 + 61, sY: y, eX: 5 + 61, eY: y + cellHeight });
-			fillText(canvasCtx, { text: params.totalPriceString ? (`¥ ${params.totalPriceString}`) : '', fontSize: '9px', color: '#666', x: 5 + 61 + 61 / 2, y: y + (cellHeight / 2) + 1 });
-			fillLine(canvasCtx, { sX: 5 + 61 * 2, sY: y, eX: 5 + 61 * 2, eY: y + cellHeight });
-			fillText(canvasCtx, { text: '办证费', fontSize: filedNameSize, x: 5 + 61 * 2 + 61 / 2, y: y + (cellHeight / 2) });
-			fillLine(canvasCtx, { sX: 5 + 61 * 3, sY: y, eX: 5 + 61 * 3, eY: y + cellHeight });
-			fillText(canvasCtx, { text: params.licenseFeeString ? (`¥ ${params.licenseFeeString}`) : '', fontSize: '9px', color: '#666', x: 5 + 61 * 3 + 61 / 2, y: y + (cellHeight / 2) + 1 });
-			fillLine(canvasCtx, { sX: 5 + 61 * 4, sY: y, eX: 5 + 61 * 4, eY: y + cellHeight });
-			fillText(canvasCtx, { text: '储运费', fontSize: filedNameSize, x: 5 + 61 * 4 + 61 / 2, y: y + (cellHeight / 2) });
-			fillText(canvasCtx, { text: params.exWarehouseFeeString ? (`¥ ${params.exWarehouseFeeString}`) : '', fontSize: '9px', color: '#666', x: 5 + 61 * 5 + 61 / 2, y: y + (cellHeight / 2) + 1 });
-			fillLine(canvasCtx, { sX: 5 + 61 * 5, sY: y, eX: 5 + 61 * 5, eY: y + cellHeight });
+			fillText(canvasCtx, { text: '成交总额', fontSize: filedNameSize, x: canvasPadding + cellWidth / 2, y: y + (cellHeight / 2) });
+			fillLine(canvasCtx, { sX: canvasPadding + cellWidth, sY: y, eX: canvasPadding + cellWidth, eY: y + cellHeight });
+			fillText(canvasCtx, { text: params.totalPriceString ? (`¥ ${params.totalPriceString}`) : '', fontSize: '9px', color: '#666', x: 5 + cellWidth + cellWidth / 2, y: y + (cellHeight / 2) + 1 });
+			fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 2, sY: y, eX: canvasPadding + cellWidth * 2, eY: y + cellHeight });
+			fillText(canvasCtx, { text: '办证费', fontSize: filedNameSize, x: 5 + cellWidth * 2 + cellWidth / 2, y: y + (cellHeight / 2) });
+			fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 3, sY: y, eX: canvasPadding + cellWidth * 3, eY: y + cellHeight });
+			fillText(canvasCtx, { text: params.licenseFeeString ? (`¥ ${params.licenseFeeString}`) : '', fontSize: '9px', color: '#666', x: 5 + cellWidth * 3 + cellWidth / 2, y: y + (cellHeight / 2) + 1 });
+			fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 4, sY: y, eX: canvasPadding + cellWidth * 4, eY: y + cellHeight });
+			fillText(canvasCtx, { text: '储运费', fontSize: filedNameSize, x: canvasPadding + cellWidth * 4 + cellWidth / 2, y: y + (cellHeight / 2) });
+			fillText(canvasCtx, { text: params.exWarehouseFeeString ? (`¥ ${params.exWarehouseFeeString}`) : '', fontSize: '9px', color: '#666', x: 5 + cellWidth * 5 + cellWidth / 2, y: y + (cellHeight / 2) + 1 });
+			fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 5, sY: y, eX: canvasPadding + cellWidth * 5, eY: y + cellHeight });
 
 			y += cellHeight;
 			// 第六行
-			fillLine(canvasCtx, { sX: 5, sY: y, eX: 370, eY: y });
+			fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth, eY: y });
 			// 成交总额（大写）
-			fillText(canvasCtx, { text: '成交总额', fontSize: filedNameSize, x: 5 + 61 / 2, y: y + (cellHeight / 2) });
-			fillLine(canvasCtx, { sX: 5 + 61, sY: y, eX: 5 + 61, eY: y + cellHeight });
-			fillText(canvasCtx, { text: params.totalPriceChinese ? `（大写）¥ ${params.totalPriceChinese}整` : '', fontSize: '9px', color: '#666', x: 5 + 61 + 5, y: y + (cellHeight / 2), textAlign: 'left' });
+			fillText(canvasCtx, { text: '成交总额', fontSize: filedNameSize, x: canvasPadding + cellWidth / 2, y: y + (cellHeight / 2) });
+			fillLine(canvasCtx, { sX: canvasPadding + cellWidth, sY: y, eX: canvasPadding + cellWidth, eY: y + cellHeight });
+			fillText(canvasCtx, { text: params.totalPriceChinese ? `（大写）¥ ${params.totalPriceChinese}整` : '', fontSize: '9px', color: '#666', x: canvasPadding + cellWidth + 10, y: y + (cellHeight / 2), textAlign: 'left' });
 
 			y += cellHeight;
 			// 第七行
-			fillLine(canvasCtx, { sX: 5, sY: y, eX: 370, eY: y });
+			fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth, eY: y });
 			if (params.saleType === 1) {
 				// 成交号牌
-				fillText(canvasCtx, { text: '成交号牌', fontSize: filedNameSize, x: 5 + 61 / 2, y: y + (cellHeight / 2) });
-				fillLine(canvasCtx, { sX: 5 + 61, sY: y, eX: 5 + 61, eY: y + cellHeight });
-				fillText(canvasCtx, { text: params.auctionNumber, fontSize: '9px', color: '#666', x: 5 + 61 + (61) / 2, y: y + (cellHeight / 2) + 1 });
-				fillLine(canvasCtx, { sX: 5 + 61 * 2, sY: y, eX: 5 + 61 * 2, eY: y + cellHeight });
-				fillText(canvasCtx, { text: '登记姓名', fontSize: filedNameSize, x: 5 + 61 * 2 + 61 / 2, y: y + (cellHeight / 2) });
-				fillLine(canvasCtx, { sX: 5 + 61 * 3, sY: y, eX: 5 + 61 * 3, eY: y + cellHeight });
-				autoFillText(canvasCtx, { text: params.bidderName, fontSize: '9px', color: '#666', width: 60, height: cellHeight, x: 5 + 61 * 3 + (61) / 2, y });
-				fillLine(canvasCtx, { sX: 5 + 61 * 4, sY: y, eX: 5 + 61 * 4, eY: y + cellHeight });
+				fillText(canvasCtx, { text: '成交号牌', fontSize: filedNameSize, x: canvasPadding + cellWidth / 2, y: y + (cellHeight / 2) });
+				fillLine(canvasCtx, { sX: canvasPadding + cellWidth, sY: y, eX: canvasPadding + cellWidth, eY: y + cellHeight });
+				fillText(canvasCtx, { text: params.auctionNumber, fontSize: '9px', color: '#666', x: canvasPadding + cellWidth + (cellWidth) / 2, y: y + (cellHeight / 2) + 1 });
+				fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 2, sY: y, eX: canvasPadding + cellWidth * 2, eY: y + cellHeight });
+				fillText(canvasCtx, { text: '登记姓名', fontSize: filedNameSize, x: canvasPadding + cellWidth * 2 + cellWidth / 2, y: y + (cellHeight / 2) });
+				fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 3, sY: y, eX: canvasPadding + cellWidth * 3, eY: y + cellHeight });
+				autoFillText(canvasCtx, { text: params.bidderName, fontSize: '9px', color: '#666', width: cellWidth, height: cellHeight, x: canvasPadding + cellWidth * 3 + (cellWidth) / 2, y });
+				fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 4, sY: y, eX: canvasPadding + cellWidth * 4, eY: y + cellHeight });
 				// 开单人
-				fillText(canvasCtx, { text: '开单人', fontSize: filedNameSize, x: 5 + 61 * 4 + 61 / 2, y: y + (cellHeight / 2) });
-				fillLine(canvasCtx, { sX: 5 + 61 * 5, sY: y, eX: 5 + 61 * 5, eY: y + cellHeight });
-				fillText(canvasCtx, { text: params.operator, fontSize: '9px', color: '#666', x: 5 + 61 * 5 + 61 / 2, y: y + (cellHeight / 2) });
+				fillText(canvasCtx, { text: '开单人', fontSize: filedNameSize, x: canvasPadding + cellWidth * 4 + cellWidth / 2, y: y + (cellHeight / 2) });
+				fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 5, sY: y, eX: canvasPadding + cellWidth * 5, eY: y + cellHeight });
+				fillText(canvasCtx, { text: params.operator, fontSize: '9px', color: '#666', x: canvasPadding + cellWidth * 5 + cellWidth / 2, y: y + (cellHeight / 2) });
 			} else {
 				// 买受人
-				fillText(canvasCtx, { text: '买受人', fontSize: filedNameSize, x: 5 + 61 / 2, y: y + (cellHeight / 2) });
-				fillLine(canvasCtx, { sX: 5 + 61, sY: y, eX: 5 + 61, eY: y + cellHeight });
-				autoFillText(canvasCtx, { text: `${params.bidderName || '-'}（${params.idCardNum || '-'} ）`, fontSize: '9px', color: '#666', x: 5 + 61 + (61 * 3) / 2, y, height: cellHeight, width: 60 * 3 - 6 });
-				fillLine(canvasCtx, { sX: 5 + 61 * 4, sY: y, eX: 5 + 61 * 4, eY: y + cellHeight });
+				fillText(canvasCtx, { text: '买受人', fontSize: filedNameSize, x: canvasPadding + cellWidth / 2, y: y + (cellHeight / 2) });
+				fillLine(canvasCtx, { sX: canvasPadding + cellWidth, sY: y, eX: canvasPadding + cellWidth, eY: y + cellHeight });
+				autoFillText(canvasCtx, { text: `${params.bidderName || '-'}（${params.idCardNum || '-'} ）`, fontSize: '9px', color: '#666', x: canvasPadding + cellWidth + (cellWidth * 3) / 2, y, height: cellHeight, width: cellWidth * 3 - 10 });
+				fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 4, sY: y, eX: canvasPadding + cellWidth * 4, eY: y + cellHeight });
 				// 开单人
-				fillText(canvasCtx, { text: '开单人', fontSize: filedNameSize, x: 5 + 61 * 4 + 61 / 2, y: y + (cellHeight / 2) });
-				fillLine(canvasCtx, { sX: 5 + 61 * 5, sY: y, eX: 5 + 61 * 5, eY: y + cellHeight });
-				fillText(canvasCtx, { text: params.operator, fontSize: '9px', color: '#666', x: 5 + 61 * 5 + 61 / 2, y: y + (cellHeight / 2) });
+				fillText(canvasCtx, { text: '开单人', fontSize: filedNameSize, x: canvasPadding + cellWidth * 4 + cellWidth / 2, y: y + (cellHeight / 2) });
+				fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 5, sY: y, eX: canvasPadding + cellWidth * 5, eY: y + cellHeight });
+				fillText(canvasCtx, { text: params.operator, fontSize: '9px', color: '#666', x: canvasPadding + cellWidth * 5 + cellWidth / 2, y: y + (cellHeight / 2) });
 			}
 
 			y += cellHeight;
 			// 第八行
-			fillLine(canvasCtx, { sX: 5, sY: y, eX: 370, eY: y });
+			fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth, eY: y });
 			const tipsFontSize = '6px';
 			const tipsLineHeight = 10;
-			console.log(getWidth(canvasCtx, '一人账户支付价款，将被原路全额退还，', '6px'));
+			console.log(getWidth(canvasCtx, '款，将被原路全额退还，', '6px'));
 			// 说明
 			fillTextWarp(
 				canvasCtx,
 				{
 					text: '本人竞买前已知悉竞买车辆的现状，且了解车辆详情仅供本人参考。本人签署本“成交确认单”即表明对竞买车辆的现状',
-					x: 5 + 5 + 1,
+					x: canvasPadding + 5 + 1,
 					y: y + 8,
 					textAlign: 'left',
 					width: 352,
@@ -214,8 +216,8 @@ class HomeController extends Controller {
 			fillTextWarp(
 				canvasCtx,
 				{
-					text: '（包括但不限于车',
-					x: 5 + 5 + 1 + 310,
+					text: '（包括但不限于车辆外观、内饰现状、车辆机械运行状态、车辆维修记录、保险记录等）及',
+					x: canvasPadding + 5 + 1 + 310,
 					y: y + 8,
 					textAlign: 'left',
 					width: 352,
@@ -228,11 +230,11 @@ class HomeController extends Controller {
 			fillTextWarp(
 				canvasCtx,
 				{
-					text: '辆外观、内饰现状、车辆机械运行状态、车辆维修记录、保险记录等）及竞买程序无任何异议，并予以确认。本人提车后，不以车况不符向贵方及委托方主张任何权益。支付成交价款的银行账户信息应与买受人参拍账号信息一致，即姓名、身份证等为同一人，若非同一人账户支付价款，将被原路全额退还，',
-					x: 5 + 5 + 1,
+					text: '竞买程序无任何异议，并予以确认。本人提车后，不以车况不符向贵方及委托方主张任何权益。支付成交价款的银行账户信息应与买受人参拍账号信息一致，即姓名、身份证等为同一人，若非同一人账户支付价款，将被原路全额退还，',
+					x: canvasPadding + 5 + 1,
 					y: y + 8 + tipsLineHeight * 1,
 					textAlign: 'left',
-					width: 352,
+					width: 555,
 					fontSize: tipsFontSize,
 					underline: true,
 					lineHeight: tipsLineHeight
@@ -243,8 +245,8 @@ class HomeController extends Controller {
 				canvasCtx,
 				{
 					text: '超过约定支付期限者视作违规，保证金作违约金不予退还。',
-					x: 5 + 5 + 1 + 108,
-					y: y + 8 + tipsLineHeight * 3,
+					x: canvasPadding + 5 + 1 + 66,
+					y: y + 8 + tipsLineHeight * 2,
 					textAlign: 'left',
 					width: 352,
 					fontSize: tipsFontSize,
@@ -252,16 +254,16 @@ class HomeController extends Controller {
 				}
 			);
 
-			y = y + 8 + tipsLineHeight * 4 - 2;
+			y = y + 8 + tipsLineHeight * 3 - 2;
 			// 左外边框
-			fillLine(canvasCtx, { sX: 5, sY: 45, eX: 5, eY: y });
+			fillLine(canvasCtx, { sX: canvasPadding, sY: 50, eX: canvasPadding, eY: y });
 			// 右外边框
-			fillLine(canvasCtx, { sX: 370, sY: 45, eX: 370, eY: y });
+			fillLine(canvasCtx, { sX: innerWidth, sY: 50, eX: innerWidth, eY: y });
 			// 下外边框
-			fillLine(canvasCtx, { sX: 5, sY: y, eX: 370, eY: y });
+			fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth, eY: y });
 
 			// 买受人签字
-			fillText(canvasCtx, { text: '买受人签字:', x: 5, y: y + 12, textAlign: 'left' });
+			fillText(canvasCtx, { text: '买受人签字：', x: canvasPadding, y: y + 12, textAlign: 'left' });
 			// 签名图
 			if(params.signUrl) {
 				const signImg = new Image();
@@ -270,9 +272,9 @@ class HomeController extends Controller {
 				signImg.src = params.signUrl;
 			}
 			// 日期
-			fillText(canvasCtx, { text: '日期:', x: 122, y: y + 12, textAlign: 'left' });
-			fillText(canvasCtx, { text: params.signDateString, x: 152, y: y + 12, textAlign: 'left', color: '#666' });
-			fillText(canvasCtx, { text: '注意:本成交确认单涂改无效', x: 370, y: y + 12, textAlign: 'right' });
+			fillText(canvasCtx, { text: '日期：', x: 202, y: y + 12, textAlign: 'left' });
+			fillText(canvasCtx, { text: params.signDateString, x: 232, y: y + 12, textAlign: 'left', color: '#666' });
+			fillText(canvasCtx, { text: '注意：本成交确认单涂改无效', x: canvasWidth - canvasPadding - 5, y: y + 12, textAlign: 'right' });
 			console.log('height=>', y + 6 + 15);
 			ctx.body = {
 				code: 0,
