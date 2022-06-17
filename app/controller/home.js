@@ -49,7 +49,7 @@ class HomeController extends Controller {
 			img.src = logo;
 
 			// 标题
-			fillText(canvasCtx, { text: params.title, x: canvasWidth / 2, y: 10 });
+			fillText(canvasCtx, { text: params.title, fontSize: '14px', x: canvasWidth / 2, y: 12 });
 
 			// 打印时间
 			fillText(canvasCtx, { text: '打印时间：', fontSize: '8px', x: canvasPadding, y: 32 + canvasPadding, textAlign: 'left' });
@@ -64,7 +64,7 @@ class HomeController extends Controller {
 			// 每行起点 y坐标
 			// 第一行
 			let y = 50;
-			const filedNameSize = '9px';//字段名 字号
+			const filedNameSize = '10px';//字段名 字号
 			const filedValueSize = '9px';//值 字号
 			fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth, eY: y });
 			if (params.saleType === 1) { // 1 同步拍, 2: '在线拍',3: '即时拍',4: '联合拍',5: '全网拍', 6: '专场拍'
