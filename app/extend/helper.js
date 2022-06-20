@@ -86,8 +86,6 @@ module.exports = {
 	fillLine,
 	getLines,
 	getWidth,
-	// 绘制换行文字
 	fillTextWarp,
-	// 文字自动适应
 	autoFillText
 };
