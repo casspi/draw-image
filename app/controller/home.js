@@ -17,19 +17,19 @@ class HomeController extends Controller {
 		const { ctx } = this;
 		ctx.logger.info('request=>', ctx.request.body);
 		try {
-			const { fillText, autoFillText, fillTextWarp, getLines, fillLine, getWidth } = ctx.helper;
+			const { fillText, autoFillText, fillTextWarp, fillLine, getWidth } = ctx.helper;
 			// console.log(ctx.request.body);
 			const params = ctx.request.body;
 
 			// 图片放大倍数
 			const multiple = params.multiple || 2;
 			// 设备像素比
-			let { ratio, saleType } = params;
+			let { ratio } = params;
 			ratio = ratio * multiple;
-			const canvasWidth = 680;//图片宽度
-			const canvasPadding = 5;//内边距
-			const canvasHeight = 290;//高度
-			const innerWidth = canvasWidth - canvasPadding * 2;//内容区宽度
+			const canvasWidth = 680;// 图片宽度
+			const canvasPadding = 5;// 内边距
+			const canvasHeight = 290;// 高度
+			const innerWidth = canvasWidth - canvasPadding * 2;// 内容区宽度
 			const canvas = createCanvas(canvasWidth * ratio, canvasHeight * ratio);
 			const canvasCtx = canvas.getContext('2d');
 			// 画布白色背景
@@ -37,9 +37,8 @@ class HomeController extends Controller {
 			canvasCtx.fillStyle = '#fff';
 			canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
 
-			const cellHeight = 22;//单元格高度
-			const cellWidth = canvasWidth/6;
-			console.log('cellWidth', cellWidth)
+			const cellHeight = 22;// 单元格高度
+			const cellWidth = canvasWidth / 6;
 
 			// logo
 			const logo = path.join(__dirname, '../public/assets/image/', 'autostreets_logo.png');
@@ -64,8 +63,8 @@ class HomeController extends Controller {
 			// 每行起点 y坐标
 			// 第一行
 			let y = 50;
-			const filedNameSize = '10px';//字段名 字号
-			const filedValueSize = '9px';//值 字号
+			const filedNameSize = '10px';// 字段名 字号
+			const filedValueSize = '9px';// 值 字号
 			fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth, eY: y });
 			if (params.saleType === 1) { // 1 同步拍, 2: '在线拍',3: '即时拍',4: '联合拍',5: '全网拍', 6: '专场拍'
 				// 拍卖会
@@ -79,7 +78,7 @@ class HomeController extends Controller {
 				// 拍品序号
 				fillText(canvasCtx, { text: '拍品序号', fontSize: filedNameSize, x: canvasPadding + cellWidth / 2, y: y + 30 / 2 });
 				fillLine(canvasCtx, { sX: canvasPadding + cellWidth, sY: y, eX: canvasPadding + cellWidth, eY: y + 30 });
-				fillText(canvasCtx, { text: params.auctionVehicleOrder, fontSize: filedValueSize, color: '#666', x: canvasPadding + cellWidth + cellWidth/2, y: y + 30 / 2 });
+				fillText(canvasCtx, { text: params.auctionVehicleOrder, fontSize: filedValueSize, color: '#666', x: canvasPadding + cellWidth + (cellWidth / 2), y: y + 30 / 2 });
 				fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 2, sY: y, eX: canvasPadding + cellWidth * 2, eY: y + 45 });
 				// 品牌型号
 				fillText(canvasCtx, { text: '品牌型号', fontSize: filedNameSize, x: canvasPadding + cellWidth * 2 + cellWidth / 2, y: y + 30 / 2 });
@@ -216,8 +215,8 @@ class HomeController extends Controller {
 			fillTextWarp(
 				canvasCtx,
 				{
-					text: '（包括但不限于车辆外观、内饰现状、车辆机械运行状态、车辆维修记录、保险记录等）及竞买程序无任何异议，并予以确认。本',
-					x: canvasPadding + 5 + 1 + 310,
+					text: '（包括但不限于车辆外观、内饰现状、车辆机械运行状态、车辆维修记录、保险记录等）及竞买程序无任何异议，并予以确认。',
+					x: canvasPadding + 5 + 1 + 317,
 					y: y + 8,
 					textAlign: 'left',
 					width: 352,
@@ -230,7 +229,7 @@ class HomeController extends Controller {
 			fillTextWarp(
 				canvasCtx,
 				{
-					text: '人提车后，不以车况不符向贵方及委托方主张任何权益。支付成交价款的银行账户信息应与买受人参拍账号信息一致，即姓名、身份证等为同一人，若非同一人账户支付价款，将被原路全额退还，',
+					text: '本人提车后，不以车况不符向贵方及委托方主张任何权益。支付成交价款的银行账户信息应与买受人参拍账号信息一致，即姓名、身份证等为同一人，若非同一人账户支付价款，将被原路全额退还，',
 					x: canvasPadding + 5 + 1,
 					y: y + 8 + tipsLineHeight * 1,
 					textAlign: 'left',
@@ -244,8 +243,8 @@ class HomeController extends Controller {
 			fillTextWarp(
 				canvasCtx,
 				{
-					text: '超过约定支付期限者视作违规，保证金作违约金不予',
-					x: canvasPadding + 5 + 1 + 516,
+					text: '超过约定支付期限者视作违规，保证金作违约金不',
+					x: canvasPadding + 5 + 1 + 522,
 					y: y + 8 + tipsLineHeight * 1,
 					textAlign: 'left',
 					width: 352,
@@ -257,7 +256,7 @@ class HomeController extends Controller {
 			fillTextWarp(
 				canvasCtx,
 				{
-					text: '退还。',
+					text: '予退还。',
 					x: canvasPadding + 5 + 1,
 					y: y + 8 + tipsLineHeight * 2,
 					textAlign: 'left',
@@ -278,7 +277,7 @@ class HomeController extends Controller {
 			// 买受人签字
 			fillText(canvasCtx, { text: '买受人签字：', x: canvasPadding, y: y + 12, textAlign: 'left' });
 			// 签名图
-			if(params.signUrl) {
+			if (params.signUrl) {
 				const signImg = new Image();
 				signImg.onload = () => canvasCtx.drawImage(signImg, 5 + 55, y + 2, 54, 28);
 				signImg.onerror = err => { throw err; };
@@ -288,7 +287,7 @@ class HomeController extends Controller {
 			fillText(canvasCtx, { text: '日期：', x: 202, y: y + 12, textAlign: 'left' });
 			fillText(canvasCtx, { text: params.signDateString, x: 232, y: y + 12, textAlign: 'left', color: '#666' });
 			fillText(canvasCtx, { text: '注意：本成交确认单涂改无效', x: canvasWidth - canvasPadding - 5, y: y + 12, textAlign: 'right' });
-			console.log('height=>', y + 6 + 15);
+			// console.log('height=>', y + 6 + 15);
 			ctx.body = {
 				code: 0,
 				data: await promisify(canvas.toDataURL).call(canvas, 'image/jpg', 1)
