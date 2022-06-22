@@ -16,10 +16,10 @@ class HomeController extends Controller {
 	async draw() {
 		const { ctx } = this;
 		ctx.logger.info('request=>', ctx.request.body);
+		const params = ctx.request.body;
 		try {
 			const { fillText, autoFillText, fillTextWarp, fillLine, getWidth } = ctx.helper;
 			// console.log(ctx.request.body);
-			const params = ctx.request.body;
 
 			// 图片放大倍数
 			const multiple = params.multiple || 2;
@@ -279,9 +279,9 @@ class HomeController extends Controller {
 			// 签名图
 			if (params.signUrl) {
 				const signImg = new Image();
-				signImg.onload = () => canvasCtx.drawImage(signImg, 5 + 55, y + 2, 54, 28);
+				signImg.onload = () => canvasCtx.drawImage(signImg, 5 + 55, y + 4, 54, 28);
 				signImg.onerror = err => { throw err; };
-				signImg.src = params.signUrl;
+				signImg.src = params.signUrl.indexOf('data:image/') > -1 ? params.signUrl : ('http://images.autostreets.com/' + params.signUrl);
 			}
 			// 日期
 			fillText(canvasCtx, { text: '日期：', x: 202, y: y + 12, textAlign: 'left' });
@@ -294,7 +294,7 @@ class HomeController extends Controller {
 			};
 			ctx.logger.info(params.orderNo + '成功');
 		} catch (e) {
-			ctx.logger.warn('request=>', JSON.stringify(e));
+			ctx.logger.warn(`request-err=>${params.orderNo}`, JSON.stringify(e));
 			ctx.body = {
 				code: 999,
 				data: null,
