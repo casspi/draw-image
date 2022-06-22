@@ -3,7 +3,7 @@
 const Controller = require('egg').Controller;
 const path = require('path');
 const { promisify } = require('util');
-const { createCanvas, Image, registerFont } = require('canvas');
+const { createCanvas, registerFont } = require('canvas');
 registerFont(path.join(__dirname, '../public/assets/fonts/MSYH.TTF'), { family: 'MSYH' });
 registerFont(path.join(__dirname, '../public/assets/fonts/MSYHBD.TTF'), { family: 'MSYHBD' });
 
@@ -18,7 +18,7 @@ class HomeController extends Controller {
 		ctx.logger.info('request=>', ctx.request.body);
 		const params = ctx.request.body;
 		try {
-			const { fillText, autoFillText, fillTextWarp, fillLine, getWidth } = ctx.helper;
+			const { fillText, autoFillText, fillTextWarp, fillLine, getWidth, drawImage } = ctx.helper;
 			// console.log(ctx.request.body);
 
 			// 图片放大倍数
@@ -42,10 +42,7 @@ class HomeController extends Controller {
 
 			// logo
 			const logo = path.join(__dirname, '../public/assets/image/', 'autostreets_logo.png');
-			const img = new Image();
-			img.onload = () => canvasCtx.drawImage(img, canvasPadding, canvasPadding, 117.5, 26);
-			img.onerror = err => { throw err; };
-			img.src = logo;
+			await drawImage(canvasCtx, { x: canvasPadding, y: canvasPadding, width: 117.5, height: 26, src: logo });
 
 			// 标题
 			fillText(canvasCtx, { text: params.title, fontSize: '14px', x: canvasWidth / 2, y: 12 });
@@ -278,10 +275,8 @@ class HomeController extends Controller {
 			fillText(canvasCtx, { text: '买受人签字：', x: canvasPadding, y: y + 12, textAlign: 'left' });
 			// 签名图
 			if (params.signUrl) {
-				const signImg = new Image();
-				signImg.onload = () => canvasCtx.drawImage(signImg, 5 + 55, y + 4, 54, 28);
-				signImg.onerror = err => { throw err; };
-				signImg.src = params.signUrl.indexOf('data:image/') > -1 ? params.signUrl : ('http://images.autostreets.com/' + params.signUrl);
+				const signImg = params.signUrl.indexOf('data:image/') > -1 ? params.signUrl : ('http://images.autostreets.com/' + params.signUrl);
+				await drawImage(canvasCtx, { x: 5 + 58, y: y + 4, width: 54, height: 28, src: signImg });
 			}
 			// 日期
 			fillText(canvasCtx, { text: '日期：', x: 202, y: y + 12, textAlign: 'left' });
@@ -294,7 +289,7 @@ class HomeController extends Controller {
 			};
 			ctx.logger.info(params.orderNo + '成功');
 		} catch (e) {
-			ctx.logger.warn(`request-err=>${params.orderNo}`, JSON.stringify(e));
+			ctx.logger.warn(`request-err=>${params.orderNo}`, e);
 			ctx.body = {
 				code: 999,
 				data: null,

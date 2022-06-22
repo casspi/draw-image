@@ -1,4 +1,5 @@
 'use strict';
+const { Image } = require('canvas');
 
 // 计算宽度
 const getWidth = (ctx, text, fontSize, fontWeight) => {
@@ -52,7 +53,7 @@ const fillTextWarp = (ctx, opt) => {
 
 	}
 	// console.log(text, x, y, width, maxLines);
-}
+};
 
 // 计算行数   这是为了计算行高而做的函数
 const getLines = (ctx, text, fontSize, width) => {
@@ -62,24 +63,38 @@ const getLines = (ctx, text, fontSize, width) => {
 		line += Math.ceil(getWidth(ctx, texts[key], fontSize) / width);
 	}
 	return line;
-}
+};
 
-//画文字 自动降字号 默认最多2行
+// 画文字 自动降字号 默认最多2行
 const autoFillText = (ctx, options) => {
 	let { width, height, fontSize, text, maxLines = 2, y, lineHeight, paddingTop = 0 } = options;
 	const lines = getLines(ctx, text, fontSize, width);
-	if(lines > maxLines){
-		console.log(parseFloat(fontSize)-1)
+	if (lines > maxLines) {
 		fontSize = (parseFloat(fontSize) - 1) + 'px';
-		autoFillText(ctx, {...options, fontSize});
-	}else{
-		//第一行 y轴坐标
+		autoFillText(ctx, { ...options, fontSize });
+	} else {
+		// 第一行 y轴坐标
 		height -= paddingTop * 2;
 		y = y + paddingTop + (height / lines) / 2;
 		lineHeight = lineHeight || (height / lines);
-		fillTextWarp(ctx, { ...options, y, lineHeight })
+		fillTextWarp(ctx, { ...options, y, lineHeight });
 	}
-}	
+};
+
+const drawImage = (ctx, options) => {
+	const { x, y, width, height, src } = options;
+	return new Promise((resolve, reject) => {
+		const img = new Image();
+		img.onload = () => {
+			ctx.drawImage(img, x, y, width, height);
+			resolve();
+		};
+		img.onerror = err => {
+			reject(err);
+		};
+		img.src = src;
+	});
+};
 
 module.exports = {
 	fillText,
@@ -87,5 +102,6 @@ module.exports = {
 	getLines,
 	getWidth,
 	fillTextWarp,
-	autoFillText
+	autoFillText,
+	drawImage
 };
