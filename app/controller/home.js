@@ -292,7 +292,7 @@ class HomeController extends Controller {
 				code: 0,
 				data: await promisify(canvas.toDataURL).call(canvas, 'image/jpg', 1)
 			};
-			ctx.logger.info('成功');
+			ctx.logger.info(params.orderNo + '成功');
 		} catch (e) {
 			ctx.logger.warn('request=>', JSON.stringify(e));
 			ctx.body = {
