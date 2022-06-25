@@ -228,7 +228,7 @@ class HomeController extends Controller {
 				{
 					text: '本人提车后，不以车况不符向贵方及委托方主张任何权益。支付成交价款的银行账户信息应与买受人参拍账号信息一致，即姓名、身份证等为同一人，若非同一人账户支付价款，将被原路全额退还，',
 					x: canvasPadding + 5 + 1,
-					y: y + 8 + tipsLineHeight * 1,
+					y: y + 8 + tipsLineHeight,
 					textAlign: 'left',
 					width: 555,
 					fontSize: tipsFontSize,
@@ -242,7 +242,7 @@ class HomeController extends Controller {
 				{
 					text: '超过约定支付期限者视作违规，保证金作违约金不',
 					x: canvasPadding + 5 + 1 + 522,
-					y: y + 8 + tipsLineHeight * 1,
+					y: y + 8 + tipsLineHeight,
 					textAlign: 'left',
 					width: 352,
 					fontSize: tipsFontSize,
