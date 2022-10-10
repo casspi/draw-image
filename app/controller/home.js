@@ -125,9 +125,9 @@ class HomeController extends Controller {
 			fillText(canvasCtx, { text: params.finalPriceString ? (`¥ ${params.finalPriceString}`) : '', fontSize: filedValueSize, color: '#666', x: canvasPadding + cellWidth + cellWidth / 2, y: y + (cellHeight / 2) + 1 });
 			fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 2, sY: y, eX: canvasPadding + cellWidth * 2, eY: y + cellHeight });
 			// 佣金类型
-			fillText(canvasCtx, { text: '佣金类型', fontSize: filedNameSize, x: canvasPadding + cellWidth * 2 + cellWidth / 2, y: y + (cellHeight / 2) });
+			fillText(canvasCtx, { text: '交付服务费', fontSize: filedNameSize, x: canvasPadding + cellWidth * 2 + cellWidth / 2, y: y + (cellHeight / 2) });
 			fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 3, sY: y, eX: canvasPadding + cellWidth * 3, eY: y + cellHeight });
-			fillText(canvasCtx, { text: params.commissionType, fontSize: filedValueSize, color: '#666', x: canvasPadding + cellWidth * 3 + cellWidth / 2, y: y + (cellHeight / 2) });
+			fillText(canvasCtx, { text: params.deliveryFeeFinanceString ? (`¥ ${params.deliveryFeeFinanceString}`) : '', fontSize: filedValueSize, color: '#666', x: canvasPadding + cellWidth * 3 + cellWidth / 2, y: y + (cellHeight / 2) });
 			fillLine(canvasCtx, { sX: canvasPadding + cellWidth * 4, sY: y, eX: canvasPadding + cellWidth * 4, eY: y + cellHeight });
 			// 佣金
 			fillText(canvasCtx, { text: '佣金', fontSize: filedNameSize, x: canvasPadding + cellWidth * 4 + cellWidth / 2, y: y + (cellHeight / 2) });
