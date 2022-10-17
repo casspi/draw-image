@@ -122,16 +122,28 @@ class DrawService extends Service {
 		y = y + cellHeight;
 		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
 
-		// 拍卖公司
-		fillText(canvasCtx, { text: '拍卖公司', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
-		fillLine(canvasCtx, { sX: x + cellWidth * 3 - 1, sY: y, eX: x + cellWidth * 3 - 1, eY: y + cellHeight });
-		fillText(canvasCtx, { text: params.authCompanyName, width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y: y + cellHeight / 2, textAlign: 'left' });
-		fillLine(canvasCtx, { sX: x + cellWidth * 12 - 1, sY: y, eX: x + cellWidth * 12 - 1, eY: y + cellHeight });
-		fillText(canvasCtx, { text: '买受人', x: x + cellWidth * 12 + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
-		fillLine(canvasCtx, { sX: x + cellWidth * 15 - 1, sY: y, eX: x + cellWidth * 15 - 1, eY: y + cellHeight });
-		fillText(canvasCtx, { text: params.bidderName, width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 15 + indent, y: y + cellHeight / 2, textAlign: 'left' });
-		y = y + cellHeight;
-		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
+		if (params.saleType === 1) { // 同步拍
+			// 拍卖公司
+			fillText(canvasCtx, { text: '拍卖公司', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
+			fillLine(canvasCtx, { sX: x + cellWidth * 3 - 1, sY: y, eX: x + cellWidth * 3 - 1, eY: y + cellHeight });
+			fillText(canvasCtx, { text: params.authCompanyName, width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+			fillLine(canvasCtx, { sX: x + cellWidth * 12 - 1, sY: y, eX: x + cellWidth * 12 - 1, eY: y + cellHeight });
+			fillText(canvasCtx, { text: '买受人', x: x + cellWidth * 12 + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
+			fillLine(canvasCtx, { sX: x + cellWidth * 15 - 1, sY: y, eX: x + cellWidth * 15 - 1, eY: y + cellHeight });
+			fillText(canvasCtx, { text: params.bidderName, width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 15 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+			y = y + cellHeight;
+			fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
+		}else {
+			fillText(canvasCtx, { text: '买受人', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
+			fillLine(canvasCtx, { sX: x + cellWidth * 3 - 1, sY: y, eX: x + cellWidth * 3 - 1, eY: y + cellHeight });
+			fillText(canvasCtx, { text: params.bidderName, width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+			fillLine(canvasCtx, { sX: x + cellWidth * 12 - 1, sY: y, eX: x + cellWidth * 12 - 1, eY: y + cellHeight });
+			fillText(canvasCtx, { text: '成交日期', x: x + cellWidth * 12 + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
+			fillLine(canvasCtx, { sX: x + cellWidth * 15 - 1, sY: y, eX: x + cellWidth * 15 - 1, eY: y + cellHeight });
+			fillText(canvasCtx, { text: params.bidderTimeString, width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 15 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+			y = y + cellHeight;
+			fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
+		}
 
 		// 原车牌号
 		fillText(canvasCtx, { text: '原车牌号', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
