@@ -300,7 +300,7 @@ class HomeController extends Controller {
 	}
 	async draw() {
 		const { ctx } = this;
-		ctx.logger.info('request=>', ctx.request.body);
+		ctx.logger.info('request=>draw', ctx.request.body);
 		const params = ctx.request.body;
 		try {
 			const { fillText, autoFillText, fillTextWarp, fillLine, getWidth, drawImage } = ctx.helper;
@@ -337,7 +337,6 @@ class HomeController extends Controller {
 			// 每行起点 y坐标
 			// 第一行
 			fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: canvasWidth - canvasPadding, eY: y, color: '#666' });
-			console.log('第一行=>', y);
 
 			// 多辆车辆订单信息
 			// y = ctx.service.draw.baseInfo(canvasCtx, params, { x: canvasPadding, y, ...configSize });

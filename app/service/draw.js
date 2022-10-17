@@ -210,7 +210,6 @@ class DrawService extends Service {
 		fillText(canvasCtx, { text: '若选择汽车街提供增值服务的，本人/公司将在办理完毕前述提车手续后将车辆继续存放汽车街。', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', });
 		y = y + cellHeight;
 		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
-		console.log(y)
 		return y;
 	}
 
