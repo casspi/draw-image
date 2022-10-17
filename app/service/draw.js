@@ -125,7 +125,7 @@ class DrawService extends Service {
 		// 拍卖公司
 		fillText(canvasCtx, { text: '拍卖公司', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
 		fillLine(canvasCtx, { sX: x + cellWidth * 3 - 1, sY: y, eX: x + cellWidth * 3 - 1, eY: y + cellHeight });
-		fillText(canvasCtx, { text: '上海常信拍卖有限公司', width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+		fillText(canvasCtx, { text: params.autoCompanyName, width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y: y + cellHeight / 2, textAlign: 'left' });
 		fillLine(canvasCtx, { sX: x + cellWidth * 12 - 1, sY: y, eX: x + cellWidth * 12 - 1, eY: y + cellHeight });
 		fillText(canvasCtx, { text: '买受人', x: x + cellWidth * 12 + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
 		fillLine(canvasCtx, { sX: x + cellWidth * 15 - 1, sY: y, eX: x + cellWidth * 15 - 1, eY: y + cellHeight });
@@ -169,7 +169,7 @@ class DrawService extends Service {
 		// 成交总额
 		fillText(canvasCtx, { text: '成交总额', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
 		fillLine(canvasCtx, { sX: x + cellWidth * 3 - 1, sY: y, eX: x + cellWidth * 3 - 1, eY: y + cellHeight });
-		fillText(canvasCtx, { text: params.totalPriceString ? (`¥ ${params.totalPriceString}（大写）¥ ${params.totalPriceChinese}整`) : '', width: cellWidth * 21 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+		fillText(canvasCtx, { text: params.totalTurnoverPriceString ? (`¥ ${params.totalTurnoverPriceString}（大写）¥ ${params.totalTurnoverPriceChinese}整`) : '', width: cellWidth * 21 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y: y + cellHeight / 2, textAlign: 'left' });
 		y = y + cellHeight;
 		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
 
@@ -223,7 +223,7 @@ class DrawService extends Service {
 		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
 		fillText(canvasCtx, { text: '交易总额', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
 		fillLine(canvasCtx, { sX: x + cellWidth * 3 - 1, sY: y, eX: x + cellWidth * 3 - 1, eY: y + cellHeight });
-		fillText(canvasCtx, { text: '¥134,000 （大写）¥ 拾叁万肆仟元整', width: cellWidth * 21 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+		fillText(canvasCtx, { text: params.totalPriceString ? (`¥ ${params.totalPriceString}（大写）¥ ${params.totalPriceChinese}整`) : '', width: cellWidth * 21 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y: y + cellHeight / 2, textAlign: 'left' });
 
 		y = y + cellHeight;
 		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
