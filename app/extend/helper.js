@@ -3,25 +3,26 @@ const { Image } = require('canvas');
 
 // 计算宽度
 const getWidth = (ctx, text, fontSize, fontWeight) => {
-	ctx.font = `${fontSize} + ${fontWeight === 'normal' ? 'MSYH' : 'MSYHBD'}`;
+	ctx.font = `${fontSize || '18px'} + ${fontWeight !== 'blod' ? 'MSYH' : 'MSYHBD'}`;
 	return ctx.measureText(text).width;
 };
 // 画线
 const fillLine = (ctx, opt) => {
 	const { sX, sY, eX, eY, color } = opt;
 	ctx.lineWidth = 1;
-	ctx.strokeStyle = color || '#000';
+	ctx.strokeStyle = color || '#666';
 	ctx.beginPath();
 	ctx.lineTo(sX, sY);
 	ctx.lineTo(eX, eY);
 	ctx.stroke();
 };
+
 // 画文字
 const fillText = (ctx, opt) => {
 	const { fontSize, color, text, x, y, width, height, textAlign, underline, fontWeight } = opt;
 	ctx.textAlign = textAlign || 'center';
 	ctx.fillStyle = color || '#000';
-	ctx.font = `${fontSize || '10px'} ${fontWeight === 'normal' ? 'MSYH' : 'MSYHBD'}`;// Avenir Helvetica
+	ctx.font = `${fontSize || '18px'} ${fontWeight !== 'bold' ? 'MSYH' : 'MSYHBD'}`;// Avenir Helvetica
 	ctx.textBaseline = 'middle';
 	ctx.fillText(text || '-', x, y, width, height);
 	if (underline) {
