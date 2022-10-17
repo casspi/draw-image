@@ -126,17 +126,17 @@ class DrawService extends Service {
 			// 拍卖公司
 			fillText(canvasCtx, { text: '拍卖公司', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
 			fillLine(canvasCtx, { sX: x + cellWidth * 3 - 1, sY: y, eX: x + cellWidth * 3 - 1, eY: y + cellHeight });
-			fillText(canvasCtx, { text: params.authCompanyName, width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+			autoFillText(canvasCtx, { text: params.auctionCompany, width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y, paddingTop: 0, lineHeight: (cellHeight / 2), textAlign: 'left' });
 			fillLine(canvasCtx, { sX: x + cellWidth * 12 - 1, sY: y, eX: x + cellWidth * 12 - 1, eY: y + cellHeight });
 			fillText(canvasCtx, { text: '买受人', x: x + cellWidth * 12 + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
 			fillLine(canvasCtx, { sX: x + cellWidth * 15 - 1, sY: y, eX: x + cellWidth * 15 - 1, eY: y + cellHeight });
-			fillText(canvasCtx, { text: params.bidderName, width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 15 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+			autoFillText(canvasCtx, { text: params.bidderName, width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 15 + indent, y, paddingTop: 0, lineHeight: (cellHeight / 2), textAlign: 'left' });
 			y = y + cellHeight;
 			fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
-		}else {
+		} else {
 			fillText(canvasCtx, { text: '买受人', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
 			fillLine(canvasCtx, { sX: x + cellWidth * 3 - 1, sY: y, eX: x + cellWidth * 3 - 1, eY: y + cellHeight });
-			fillText(canvasCtx, { text: params.bidderName, width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+			autoFillText(canvasCtx, { text: params.bidderName, width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y, paddingTop: 0, lineHeight: (cellHeight / 2), textAlign: 'left' });
 			fillLine(canvasCtx, { sX: x + cellWidth * 12 - 1, sY: y, eX: x + cellWidth * 12 - 1, eY: y + cellHeight });
 			fillText(canvasCtx, { text: '成交日期', x: x + cellWidth * 12 + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
 			fillLine(canvasCtx, { sX: x + cellWidth * 15 - 1, sY: y, eX: x + cellWidth * 15 - 1, eY: y + cellHeight });
@@ -242,9 +242,6 @@ class DrawService extends Service {
 		const lineHeight = 32;
 		// 说明文本
 		y = y + 10 + lineHeight / 2;
-		fillTextWarp(canvasCtx, {
-			text: '本人/本公司竞买前已知悉竞买车辆的现状，且了解车辆详情仅供参考。本人/本公司签署本《成交确认单》即表明对竞买车辆的现状（包括但不限于车辆外观、内饰现状、车辆机械运行状态、车辆维修记录、保险记录等）及竞买程序无任何异议，并予以确认。本人/本公司提车后，不以车况不符向拍卖人及委托方主张任何权益。 本人/公司确保付款银行账户为本人/本公司账户，即付款账户名与买受人一致；若非买受人账户支付款项，“汽车街”有权将收到的成交车款及其他费用原路全额退还。若本人/本公司未在约定期限内支付成交车款及其他费用的，构成违约，本人/本公司缴纳的交易保证金将作违约金。'
-		});
 		fillText(canvasCtx, { text: '本人/本公司竞买前已知悉竞买车辆的现状，且了解车辆详情仅供参考。本人/本公司签署本《成交确认单》即表明对竞买车辆的现状（包', x: x + indent + 36, y, textAlign: 'left' });
 		y = y + lineHeight;
 		fillText(canvasCtx, { text: '括但不限于车辆外观、内饰现状、车辆机械运行状态、车辆维修记录、保险记录等）及竞买程序无任何异议，并予以确认。本人/本公司提车', x: x + indent, y, textAlign: 'left' });

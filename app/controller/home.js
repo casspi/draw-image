@@ -347,11 +347,13 @@ class HomeController extends Controller {
 			// 交易总额
 			y = ctx.service.draw.totalPrice(canvasCtx, params, { x: canvasPadding, y, ...configSize });
 			// 盖章/签字
-			if (params.saleType === 1) { // 同步拍
-				y = await ctx.service.draw.syncAuctionSign(canvasCtx, params, { x: canvasPadding, y, ...configSize });
-			} else {
-				y = await ctx.service.draw.otherAuctionSign(canvasCtx, params, { x: canvasPadding, y, ...configSize });
-			}
+			y = await ctx.service.draw.otherAuctionSign(canvasCtx, params, { x: canvasPadding, y, ...configSize });
+
+			// if (params.saleType === 1) { // 同步拍
+			// 	y = await ctx.service.draw.syncAuctionSign(canvasCtx, params, { x: canvasPadding, y, ...configSize });
+			// } else {
+			// 	y = await ctx.service.draw.otherAuctionSign(canvasCtx, params, { x: canvasPadding, y, ...configSize });
+			// }
 
 			// 车辆列表
 			// y = ctx.service.draw.carList(canvasCtx, params, { x: canvasPadding, y, ...configSize });

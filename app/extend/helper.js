@@ -37,7 +37,7 @@ const fillText = (ctx, opt) => {
 
 // 绘制换行文字
 const fillTextWarp = (ctx, opt) => {
-	let { text, x, y, width, maxLines, fontSize, lineHeight, ...options } = opt;
+	let { text = '-', x, y, width, maxLines, fontSize, lineHeight, ...options } = opt;
 	let textWidth = 0;
 	let textIndex = 0; // 每次截取的开始的索引
 	for (let i = 0; i < text.length; i++) {
@@ -68,7 +68,7 @@ const getLines = (ctx, text, fontSize, width) => {
 
 // 画文字 自动降字号 默认最多2行
 const autoFillText = (ctx, options) => {
-	let { width, height, fontSize, text, maxLines = 2, y, lineHeight, paddingTop = 0 } = options;
+	let { width, height, fontSize, text = '-', maxLines = 2, y, lineHeight, paddingTop = 0 } = options;
 	const lines = getLines(ctx, text, fontSize, width);
 	if (lines > maxLines) {
 		fontSize = (parseFloat(fontSize) - 1) + 'px';
