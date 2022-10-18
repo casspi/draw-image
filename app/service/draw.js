@@ -205,10 +205,8 @@ class DrawService extends Service {
 		y = y + cellHeight;
 		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
 
-		if (params.licenseFeeString > 0) {
-			const checkbox = path.join(__dirname, '../public/assets/image/', 'checkbox.png');
-			await drawImage(canvasCtx, { x: x + indent, y: y + 18, width: 16, height: 16, src: checkbox });
-		}
+		const checkbox = path.join(__dirname, '../public/assets/image/', params.licenseFee > 0 ? 'checkbox.png' : 'checkbox1.png');
+		await drawImage(canvasCtx, { x: x + indent, y: y + 18, width: 16, height: 16, src: checkbox });
 		fillText(canvasCtx, { text: '办证服务', x: x + indent + 22, y: y + cellHeight / 2, textAlign: 'left', });
 		fillLine(canvasCtx, { sX: x + cellWidth * 4 - 1, sY: y, eX: x + cellWidth * 4 - 1, eY: y + cellHeight });
 		fillText(canvasCtx, { text: '办证费', x: x + cellWidth * 4 + indent, y: y + cellHeight / 2, textAlign: 'left' });
