@@ -44,7 +44,7 @@ class DrawService extends Service {
 			// 品牌型号
 			fillText(canvasCtx, { text: '拍卖公司', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
 			fillLine(canvasCtx, { sX: x + cellWidth * 3 - 1, sY: y, eX: x + cellWidth * 3 - 1, eY: y + cellHeight });
-			autoFillText(canvasCtx, { text: '上海常信拍卖有限公司', width: cellWidth * 5 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y, paddingTop: 2, lineHeight: (cellHeight / 2), textAlign: 'left' });
+			autoFillText(canvasCtx, { text: params.auctionCompany, width: cellWidth * 5 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y, paddingTop: 2, lineHeight: (cellHeight / 2), textAlign: 'left' });
 			fillLine(canvasCtx, { sX: x + cellWidth * 8 - 1, sY: y, eX: x + cellWidth * 8 - 1, eY: y + cellHeight });
 			fillText(canvasCtx, { text: '拍卖会', x: x + cellWidth * 8 + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
 			fillLine(canvasCtx, { sX: x + cellWidth * 11 - 1, sY: y, eX: x + cellWidth * 11 - 1, eY: y + cellHeight });
@@ -205,8 +205,10 @@ class DrawService extends Service {
 		y = y + cellHeight;
 		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
 
-		const checkbox = path.join(__dirname, '../public/assets/image/', 'checkbox.png');
-		await drawImage(canvasCtx, { x: x + indent, y: y + 18, width: 16, height: 16, src: checkbox });
+		if (params.licenseFeeString > 0) {
+			const checkbox = path.join(__dirname, '../public/assets/image/', 'checkbox.png');
+			await drawImage(canvasCtx, { x: x + indent, y: y + 18, width: 16, height: 16, src: checkbox });
+		}
 		fillText(canvasCtx, { text: '办证服务', x: x + indent + 22, y: y + cellHeight / 2, textAlign: 'left', });
 		fillLine(canvasCtx, { sX: x + cellWidth * 4 - 1, sY: y, eX: x + cellWidth * 4 - 1, eY: y + cellHeight });
 		fillText(canvasCtx, { text: '办证费', x: x + cellWidth * 4 + indent, y: y + cellHeight / 2, textAlign: 'left' });
@@ -216,7 +218,6 @@ class DrawService extends Service {
 		fillText(canvasCtx, { text: '本人/公司已阅读并同意', x: x + cellWidth * 12 + indent, y: y + cellHeight / 2, textAlign: 'left' });
 		const width = getWidth(canvasCtx, '本人/公司已阅读并同意', '18px');
 		fillText(canvasCtx, { text: '《汽车街办证服务合同》', x: x + cellWidth * 12 + indent + width, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
-
 		y = y + cellHeight;
 		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
 		fillText(canvasCtx, { text: '若选择汽车街提供增值服务的，本人/公司将在办理完毕前述提车手续后将车辆继续存放汽车街。', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', });
@@ -235,7 +236,6 @@ class DrawService extends Service {
 		fillText(canvasCtx, { text: '交易总额', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
 		fillLine(canvasCtx, { sX: x + cellWidth * 3 - 1, sY: y, eX: x + cellWidth * 3 - 1, eY: y + cellHeight });
 		fillText(canvasCtx, { text: params.totalPriceString ? (`¥ ${params.totalPriceString}（大写）¥ ${params.totalPriceChinese}整`) : '', width: cellWidth * 21 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y: y + cellHeight / 2, textAlign: 'left' });
-
 		y = y + cellHeight;
 		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
 
@@ -276,7 +276,6 @@ class DrawService extends Service {
 		}
 		fillText(canvasCtx, { text: '日期', x: canvasPadding + cellWidth * 12 + cellWidth * 3.5 / 2, y: y + 155 + 20, textAlign: 'center', fontWeight: 'bold' });
 		fillText(canvasCtx, { text: params.signDateString, x: canvasPadding + cellWidth * 15.5 + cellWidth * 8.5 / 2, y: y + 155 + 20, textAlign: 'center'});
-
 		y = y + 200;
 		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
 
@@ -361,7 +360,6 @@ class DrawService extends Service {
 		fillLine(canvasCtx, { sX: x + cellWidth * 16.5 - 1, sY: tableSy, eX: x + cellWidth * 16.5 - 1, eY: y });
 		fillLine(canvasCtx, { sX: x + cellWidth * 19 - 1, sY: tableSy, eX: x + cellWidth * 19 - 1, eY: y });
 		fillLine(canvasCtx, { sX: x + cellWidth * 21.5 - 1, sY: tableSy, eX: x + cellWidth * 21.5 - 1, eY: y });
-
 
 		return y;
 	}
