@@ -306,7 +306,7 @@ class HomeController extends Controller {
 			const { fillText, autoFillText, fillTextWarp, fillLine, getWidth, drawImage } = ctx.helper;
 
 			// 图片放大倍数
-			const multiple = params.multiple || 2;
+			const multiple = 1;
 			// // 设备像素比
 			// let { ratio } = params;
 			// ratio = ratio * multiple;
