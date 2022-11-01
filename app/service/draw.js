@@ -23,15 +23,16 @@ class DrawService extends Service {
 		// 标题
 		fillText(canvasCtx, { text: params.title, fontSize: '36px', fontWeight: 'bold', x: canvasWidth / 2, y: 29 + 25 });
 
-		// 打印时间
-		// fillText(canvasCtx, { text: '打印时间：', fontSize: '8px', x: sX, y: 32 + sY, textAlign: 'left' });
-		// let text = canvasCtx.measureText('打印时间：');
-		// fillText(canvasCtx, { text: params.printTimeString, fontSize: '8px', fontWeight: 'normal', color: '#666', x: canvasPadding + text.width, y: 32 + canvasPadding, textAlign: 'left' });
+		// 竞拍城市
+		fillText(canvasCtx, { text: '竞拍城市：', fontWeight: 'bold', x, y: 78, textAlign: 'left' });
+		let width = getWidth(canvasCtx, '竞拍城市：', '18px');
+		fillText(canvasCtx, { text: params.city, x: x + width, y: 78, textAlign: 'left' });
 
 		// 编号
 		fillText(canvasCtx, { text: params.orderNo, x: canvasWidth - canvasPadding, y: 78, textAlign: 'right' });
-		const width = getWidth(canvasCtx, params.orderNo, '18px');
+		width = getWidth(canvasCtx, params.orderNo, '18px');
 		fillText(canvasCtx, { text: '编号：', fontWeight: 'bold', x: canvasWidth - canvasPadding - width - 14, y: 78, textAlign: 'right' });
+
 		fillLine(canvasCtx, { sX: canvasPadding, sY: 108, eX: canvasWidth - canvasPadding, eY: 108, color: '#666' });
 		return 108;
 	}
