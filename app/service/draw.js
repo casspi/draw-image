@@ -105,7 +105,7 @@ class DrawService extends Service {
 	// 单车时车辆信息
 	singleCarInfo(canvasCtx, params, config) {
 		const { ctx } = this;
-		const { fillText, autoFillText, fillTextWarp, fillLine, getWidth, drawImage } = ctx.helper;
+		const { fillText, autoFillText, fillTextWarp, fillLine, getWidth, drawImage, drawMosaic } = ctx.helper;
 		let { x, y, canvasWidth, canvasPadding, canvasHeight, cellWidth, cellHeight, indent, innerWidth } = config;
 
 		if (params.saleType === 1) { // 同步拍
@@ -164,25 +164,33 @@ class DrawService extends Service {
 		fillLine(canvasCtx, { sX: x + cellWidth * 12 - 1, sY: y, eX: x + cellWidth * 12 - 1, eY: y + cellHeight });
 		fillText(canvasCtx, { text: '佣金', x: x + cellWidth * 12 + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
 		fillLine(canvasCtx, { sX: x + cellWidth * 15 - 1, sY: y, eX: x + cellWidth * 15 - 1, eY: y + cellHeight });
-		fillText(canvasCtx, { text: params.buyerCommissionFeeString ? (`¥ ${params.buyerCommissionFeeString}`) : '', width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 15 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+		const buyerCommissionFeeString = params.buyerCommissionFeeString ? (`¥ ${params.buyerCommissionFeeString}`) : '--';
+		fillText(canvasCtx, { text: buyerCommissionFeeString, width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 15 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+		params.withMosaic && drawMosaic(canvasCtx, { x: x + cellWidth * 15 + indent, y, width: getWidth(canvasCtx, buyerCommissionFeeString) });
 		y = y + cellHeight;
 		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
 
 		// 储运费
 		fillText(canvasCtx, { text: '储运费', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
 		fillLine(canvasCtx, { sX: x + cellWidth * 3 - 1, sY: y, eX: x + cellWidth * 3 - 1, eY: y + cellHeight });
-		fillText(canvasCtx, { text: params.exWarehouseFeeString ? (`¥ ${params.exWarehouseFeeString}`) : '', width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+		const exWarehouseFeeString = params.exWarehouseFeeString ? (`¥ ${params.exWarehouseFeeString}`) : '--';
+		fillText(canvasCtx, { text: exWarehouseFeeString, width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+		params.withMosaic && drawMosaic(canvasCtx, { x: x + cellWidth * 3 + indent, y, width: getWidth(canvasCtx, exWarehouseFeeString) });
 		fillLine(canvasCtx, { sX: x + cellWidth * 12 - 1, sY: y, eX: x + cellWidth * 12 - 1, eY: y + cellHeight });
 		fillText(canvasCtx, { text: '交付服务费', x: x + cellWidth * 12 + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
 		fillLine(canvasCtx, { sX: x + cellWidth * 15 - 1, sY: y, eX: x + cellWidth * 15 - 1, eY: y + cellHeight });
-		fillText(canvasCtx, { text: params.deliveryFeeString ? (`¥ ${params.deliveryFeeString}`) : '', width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 15 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+		const deliveryFeeString = params.deliveryFeeString ? (`¥ ${params.deliveryFeeString}`) : '--';
+		fillText(canvasCtx, { text: deliveryFeeString, width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 15 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+		params.withMosaic && drawMosaic(canvasCtx, { x: x + cellWidth * 15 + indent, y, width: getWidth(canvasCtx, deliveryFeeString) });
 		y = y + cellHeight;
 		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
 
 		// 成交总额
 		fillText(canvasCtx, { text: '成交总额', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
 		fillLine(canvasCtx, { sX: x + cellWidth * 3 - 1, sY: y, eX: x + cellWidth * 3 - 1, eY: y + cellHeight });
-		fillText(canvasCtx, { text: params.totalTurnoverPriceString ? (`¥ ${params.totalTurnoverPriceString}（大写）¥ ${params.totalTurnoverPriceChinese}整`) : '', width: cellWidth * 21 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+		const totalTurnoverPriceString = params.totalTurnoverPriceString ? (`¥ ${params.totalTurnoverPriceString}（大写）¥ ${params.totalTurnoverPriceChinese}整`) : '--';
+		fillText(canvasCtx, { text: totalTurnoverPriceString, width: cellWidth * 21 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+		params.withMosaic && drawMosaic(canvasCtx, { x: x + cellWidth * 3 + indent, y, width: getWidth(canvasCtx, totalTurnoverPriceString) });
 		y = y + cellHeight;
 		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
 
@@ -198,7 +206,7 @@ class DrawService extends Service {
 	// 增值服务 部分
 	async valueAddedService(canvasCtx, params, config) {
 		const { ctx } = this;
-		const { fillText, autoFillText, fillTextWarp, fillLine, getWidth, drawImage } = ctx.helper;
+		const { fillText, autoFillText, fillTextWarp, fillLine, getWidth, drawImage, drawMosaic } = ctx.helper;
 		let { x, y, canvasWidth, canvasPadding, canvasHeight, cellWidth, cellHeight, indent, innerWidth } = config;
 		y = y + cellHeight;
 		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
@@ -212,7 +220,9 @@ class DrawService extends Service {
 		fillLine(canvasCtx, { sX: x + cellWidth * 4 - 1, sY: y, eX: x + cellWidth * 4 - 1, eY: y + cellHeight });
 		fillText(canvasCtx, { text: '办证费', x: x + cellWidth * 4 + indent, y: y + cellHeight / 2, textAlign: 'left' });
 		fillLine(canvasCtx, { sX: x + cellWidth * 8 - 1, sY: y, eX: x + cellWidth * 8 - 1, eY: y + cellHeight });
-		fillText(canvasCtx, { text: params.licenseFeeString ? (`¥ ${params.licenseFeeString}`) : '', x: x + cellWidth * 8 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+		const licenseFeeString = params.licenseFeeString ? (`¥ ${params.licenseFeeString}`) : '--';
+		fillText(canvasCtx, { text: licenseFeeString, x: x + cellWidth * 8 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+		params.withMosaic && drawMosaic(canvasCtx, { x: x + cellWidth * 8 + indent, y, width: getWidth(canvasCtx, licenseFeeString) });
 		fillLine(canvasCtx, { sX: x + cellWidth * 12 - 1, sY: y, eX: x + cellWidth * 12 - 1, eY: y + cellHeight });
 		fillText(canvasCtx, { text: '本人/公司已阅读并同意', x: x + cellWidth * 12 + indent, y: y + cellHeight / 2, textAlign: 'left' });
 		const width = getWidth(canvasCtx, '本人/公司已阅读并同意', '18px');
@@ -228,13 +238,15 @@ class DrawService extends Service {
 	// 交易总额信息
 	totalPrice(canvasCtx, params, config) {
 		const { ctx } = this;
-		const { fillText, autoFillText, fillTextWarp, fillLine, getWidth, drawImage } = ctx.helper;
+		const { fillText, autoFillText, fillTextWarp, fillLine, getWidth, drawImage, drawMosaic } = ctx.helper;
 		let { x, y, canvasWidth, canvasPadding, canvasHeight, cellWidth, cellHeight, indent, innerWidth } = config;
 		y = y + cellHeight;
 		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
 		fillText(canvasCtx, { text: '交易总额', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
 		fillLine(canvasCtx, { sX: x + cellWidth * 3 - 1, sY: y, eX: x + cellWidth * 3 - 1, eY: y + cellHeight });
-		fillText(canvasCtx, { text: params.totalPriceString ? (`¥ ${params.totalPriceString}（大写）¥ ${params.totalPriceChinese}整`) : '', width: cellWidth * 21 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+		const totalPriceString = params.totalPriceString ? (`¥ ${params.totalPriceString}（大写）¥ ${params.totalPriceChinese}整`) : '--';
+		fillText(canvasCtx, { text: totalPriceString, width: cellWidth * 21 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+		params.withMosaic && drawMosaic(canvasCtx, { x: x + cellWidth * 3 + indent, y, width: getWidth(canvasCtx, totalPriceString) });
 		y = y + cellHeight;
 		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
 
