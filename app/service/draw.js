@@ -164,7 +164,7 @@ class DrawService extends Service {
 		fillLine(canvasCtx, { sX: x + cellWidth * 12 - 1, sY: y, eX: x + cellWidth * 12 - 1, eY: y + cellHeight });
 		fillText(canvasCtx, { text: '佣金', x: x + cellWidth * 12 + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
 		fillLine(canvasCtx, { sX: x + cellWidth * 15 - 1, sY: y, eX: x + cellWidth * 15 - 1, eY: y + cellHeight });
-		const buyerCommissionFeeString = params.buyerCommissionFeeString ? (`¥ ${params.buyerCommissionFeeString}`) : '--';
+		const buyerCommissionFeeString = params.buyerCommissionFeeString ? (`¥ ${params.buyerCommissionFeeString}`) : '';
 		fillText(canvasCtx, { text: buyerCommissionFeeString, width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 15 + indent, y: y + cellHeight / 2, textAlign: 'left' });
 		params.withMosaic && drawMosaic(canvasCtx, { x: x + cellWidth * 15 + indent, y, width: getWidth(canvasCtx, buyerCommissionFeeString) });
 		y = y + cellHeight;
@@ -173,13 +173,13 @@ class DrawService extends Service {
 		// 储运费
 		fillText(canvasCtx, { text: '储运费', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
 		fillLine(canvasCtx, { sX: x + cellWidth * 3 - 1, sY: y, eX: x + cellWidth * 3 - 1, eY: y + cellHeight });
-		const exWarehouseFeeString = params.exWarehouseFeeString ? (`¥ ${params.exWarehouseFeeString}`) : '--';
+		const exWarehouseFeeString = params.exWarehouseFeeString ? (`¥ ${params.exWarehouseFeeString}`) : '';
 		fillText(canvasCtx, { text: exWarehouseFeeString, width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y: y + cellHeight / 2, textAlign: 'left' });
 		params.withMosaic && drawMosaic(canvasCtx, { x: x + cellWidth * 3 + indent, y, width: getWidth(canvasCtx, exWarehouseFeeString) });
 		fillLine(canvasCtx, { sX: x + cellWidth * 12 - 1, sY: y, eX: x + cellWidth * 12 - 1, eY: y + cellHeight });
 		fillText(canvasCtx, { text: '交付服务费', x: x + cellWidth * 12 + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
 		fillLine(canvasCtx, { sX: x + cellWidth * 15 - 1, sY: y, eX: x + cellWidth * 15 - 1, eY: y + cellHeight });
-		const deliveryFeeString = params.deliveryFeeString ? (`¥ ${params.deliveryFeeString}`) : '--';
+		const deliveryFeeString = params.deliveryFeeString ? (`¥ ${params.deliveryFeeString}`) : '';
 		fillText(canvasCtx, { text: deliveryFeeString, width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 15 + indent, y: y + cellHeight / 2, textAlign: 'left' });
 		params.withMosaic && drawMosaic(canvasCtx, { x: x + cellWidth * 15 + indent, y, width: getWidth(canvasCtx, deliveryFeeString) });
 		y = y + cellHeight;
@@ -188,7 +188,7 @@ class DrawService extends Service {
 		// 成交总额
 		fillText(canvasCtx, { text: '成交总额', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
 		fillLine(canvasCtx, { sX: x + cellWidth * 3 - 1, sY: y, eX: x + cellWidth * 3 - 1, eY: y + cellHeight });
-		const totalTurnoverPriceString = params.totalTurnoverPriceString ? (`¥ ${params.totalTurnoverPriceString}（大写）¥ ${params.totalTurnoverPriceChinese}整`) : '--';
+		const totalTurnoverPriceString = params.totalTurnoverPriceString ? (`¥ ${params.totalTurnoverPriceString}（大写）¥ ${params.totalTurnoverPriceChinese}整`) : '';
 		fillText(canvasCtx, { text: totalTurnoverPriceString, width: cellWidth * 21 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y: y + cellHeight / 2, textAlign: 'left' });
 		params.withMosaic && drawMosaic(canvasCtx, { x: x + cellWidth * 3 + indent, y, width: getWidth(canvasCtx, totalTurnoverPriceString) });
 		y = y + cellHeight;
@@ -220,7 +220,7 @@ class DrawService extends Service {
 		fillLine(canvasCtx, { sX: x + cellWidth * 4 - 1, sY: y, eX: x + cellWidth * 4 - 1, eY: y + cellHeight });
 		fillText(canvasCtx, { text: '办证费', x: x + cellWidth * 4 + indent, y: y + cellHeight / 2, textAlign: 'left' });
 		fillLine(canvasCtx, { sX: x + cellWidth * 8 - 1, sY: y, eX: x + cellWidth * 8 - 1, eY: y + cellHeight });
-		const licenseFeeString = params.licenseFeeString ? (`¥ ${params.licenseFeeString}`) : '--';
+		const licenseFeeString = params.licenseFeeString ? (`¥ ${params.licenseFeeString}`) : '';
 		fillText(canvasCtx, { text: licenseFeeString, x: x + cellWidth * 8 + indent, y: y + cellHeight / 2, textAlign: 'left' });
 		params.withMosaic && drawMosaic(canvasCtx, { x: x + cellWidth * 8 + indent, y, width: getWidth(canvasCtx, licenseFeeString) });
 		fillLine(canvasCtx, { sX: x + cellWidth * 12 - 1, sY: y, eX: x + cellWidth * 12 - 1, eY: y + cellHeight });
@@ -244,7 +244,7 @@ class DrawService extends Service {
 		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
 		fillText(canvasCtx, { text: '交易总额', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
 		fillLine(canvasCtx, { sX: x + cellWidth * 3 - 1, sY: y, eX: x + cellWidth * 3 - 1, eY: y + cellHeight });
-		const totalPriceString = params.totalPriceString ? (`¥ ${params.totalPriceString}（大写）¥ ${params.totalPriceChinese}整`) : '--';
+		const totalPriceString = params.totalPriceString ? (`¥ ${params.totalPriceString}（大写）¥ ${params.totalPriceChinese}整`) : '';
 		fillText(canvasCtx, { text: totalPriceString, width: cellWidth * 21 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y: y + cellHeight / 2, textAlign: 'left' });
 		params.withMosaic && drawMosaic(canvasCtx, { x: x + cellWidth * 3 + indent, y, width: getWidth(canvasCtx, totalPriceString) });
 		y = y + cellHeight;
