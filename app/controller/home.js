@@ -671,7 +671,7 @@ class HomeController extends Controller {
 			// ratio = ratio * multiple;
 
 			const canvasWidth = 1240 * multiple, // 图片宽度
-				canvasHeight = (1754 + (2 - 2) * 176 ) * multiple, // 图片高度
+				canvasHeight = (1754 + (2 - 2) * 176) * multiple, // 图片高度
 				canvasPadding = 50 * multiple, // 左右边距
 				cellHeight = 48 * multiple, // 单元格高度
 				cellWidth = 47.5 * multiple, // 单元格宽度

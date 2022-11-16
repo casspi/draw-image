@@ -97,6 +97,55 @@ const drawImage = (ctx, options) => {
 	});
 };
 
+const drawMosaic = (ctx, options) => {
+	let { x, y, width, height = 40 } = options;
+	y += 4;
+	width += 20;
+	const oImg = ctx.getImageData(x, y, width, height);
+	console.log('oImg', oImg);
+	const w = oImg.width;
+	const h = oImg.height;
+	// 马赛克的程度，数字越大越模糊
+	const num = 6;
+	// 等分画布
+	const stepW = w / num;
+	const stepH = h / num;
+	function getXY(obj, x, y) {
+		const w = obj.width;
+		const color = [];
+		color[0] = obj.data[4 * (y * w + x)] || 0;
+		color[1] = obj.data[4 * (y * w + x) + 1] || 0;
+		color[2] = obj.data[4 * (y * w + x) + 2] || 0;
+		color[3] = obj.data[4 * (y * w + x) + 3] || 0;
+		return color;
+	}
+
+	function setXY(obj, x, y, color) {
+		const w = obj.width;
+		obj.data[4 * (y * w + x)] = color[0];
+		obj.data[4 * (y * w + x) + 1] = color[1];
+		obj.data[4 * (y * w + x) + 2] = color[2];
+		obj.data[4 * (y * w + x) + 3] = color[3];
+	}
+	// 这里是循环画布的像素点
+	for (let i = 0; i < stepH; i++) {
+		for (let j = 0; j < stepW; j++) {
+			// 获取一个小方格的随机颜色，这是小方格的随机位置获取的
+			const color = getXY(oImg, j * num + Math.floor(Math.random() * num), i * num + Math.floor(Math.random() * num));
+			// console.log(color)
+			// 这里是循环小方格的像素点，
+			for (let k = 0; k < num; k++) {
+				for (let l = 0; l < num; l++) {
+					// 设置小方格的颜色
+					setXY(oImg, j * num + l, i * num + k, color);
+				}
+			}
+
+		}
+	}
+	ctx.putImageData(oImg, x, y);
+};
+
 module.exports = {
 	fillText,
 	fillLine,
@@ -104,5 +153,6 @@ module.exports = {
 	getWidth,
 	fillTextWarp,
 	autoFillText,
-	drawImage
+	drawImage,
+	drawMosaic
 };
