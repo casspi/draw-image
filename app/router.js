@@ -9,4 +9,5 @@ module.exports = app => {
 
 	// router.post('/drawImage', controller.home.drawOld);
 	router.post('/drawImage', controller.home.draw);
+	router.post('/historyBill', controller.home.historyBill);
 };
