@@ -387,9 +387,9 @@ class HomeController extends Controller {
 			// // 设备像素比
 			// let { ratio } = params;
 			// ratio = ratio * multiple;
-
+			const isPack = true;
 			const canvasWidth = 1240 * multiple, // 图片宽度
-				canvasHeight = (1754 + (2 - 2) * 176) * multiple, // 图片高度
+				canvasHeight = (1754 + (2 - 2) * 176) * 7 * multiple, // 图片高度
 				canvasPadding = 50 * multiple, // 左右边距
 				cellHeight = 48 * multiple, // 单元格高度
 				cellWidth = 47.5 * multiple, // 单元格宽度
@@ -414,26 +414,27 @@ class HomeController extends Controller {
 			// 每行起点 y坐标
 			// 第一行
 			fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: canvasWidth - canvasPadding, eY: y, color: '#666' });
-
-			// 多辆车辆订单信息
-			// y = ctx.service.draw.baseInfo(canvasCtx, params, { x: canvasPadding, y, ...configSize });
-			// 单车车辆信息
-			y = ctx.service.draw.singleCarInfo(canvasCtx, params, { x: canvasPadding, y, ...configSize });
+			// 车辆信息
+			if (isPack) { // 打包拍
+				y = ctx.service.draw.packBaseInfo(canvasCtx, params, { x: canvasPadding, y, ...configSize });
+			} else {
+				y = ctx.service.draw.baseInfo(canvasCtx, params, { x: canvasPadding, y, ...configSize });
+			}
 			// 增值服务信息
 			y = await ctx.service.draw.valueAddedService(canvasCtx, params, { x: canvasPadding, y, ...configSize });
 			// 交易总额
 			y = ctx.service.draw.totalPrice(canvasCtx, params, { x: canvasPadding, y, ...configSize });
+			let dividerCoordinate = [];
 			// 盖章/签字
-			y = await ctx.service.draw.otherAuctionSign(canvasCtx, params, { x: canvasPadding, y, ...configSize });
-
-			// if (params.saleType === 1) { // 同步拍
-			// 	y = await ctx.service.draw.syncAuctionSign(canvasCtx, params, { x: canvasPadding, y, ...configSize });
-			// } else {
-			// 	y = await ctx.service.draw.otherAuctionSign(canvasCtx, params, { x: canvasPadding, y, ...configSize });
-			// }
-
-			// 车辆列表
-			// y = ctx.service.draw.carList(canvasCtx, params, { x: canvasPadding, y, ...configSize });
+			if (isPack) { // 打包拍
+				y = await ctx.service.draw.packAuctionSign(canvasCtx, params, { x: canvasPadding, y, ...configSize });
+				// 车辆列表
+				const { y: resY, dividerCoordinate: resDividerCoordinate } = ctx.service.draw.vehicleList(canvasCtx, params, { x: canvasPadding, y, ...configSize });
+				y = resY;
+				dividerCoordinate = resDividerCoordinate;
+			} else {
+				y = await ctx.service.draw.auctionSign(canvasCtx, params, { x: canvasPadding, y, ...configSize });
+			}
 
 			// 左外边框
 			fillLine(canvasCtx, { sX: canvasPadding, sY: 165, eX: canvasPadding, eY: y });
@@ -441,7 +442,8 @@ class HomeController extends Controller {
 			fillLine(canvasCtx, { sX: canvasPadding + innerWidth, sY: 165, eX: canvasPadding + innerWidth, eY: y });
 			// 下外边框
 			// fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth, eY: y });
-
+			// 最后绘制白色区域
+			ctx.service.draw.dividerCoordinate(canvasCtx, dividerCoordinate);
 			ctx.body = {
 				code: 0,
 				data: await promisify(canvas.toDataURL).call(canvas, 'image/jpg', 1)

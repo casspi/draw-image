@@ -1,6 +1,6 @@
 'use strict';
 
-const path = require('path')
+const path = require('path');
 const Service = require('egg').Service;
 
 class DrawService extends Service {
@@ -36,61 +36,68 @@ class DrawService extends Service {
 		fillLine(canvasCtx, { sX: canvasPadding, sY: 108, eX: canvasWidth - canvasPadding, eY: 108, color: '#666' });
 		return 108;
 	}
-	// 多辆车时订单基本信息
-	baseInfo(canvasCtx, params, config) {
+	// 打包拍车辆信息
+	packBaseInfo(canvasCtx, params, config) {
 		const { ctx } = this;
-		const { fillText, autoFillText, fillTextWarp, fillLine, getWidth, drawImage } = ctx.helper;
+		const { fillText, autoFillText, fillTextWarp, fillLine, getWidth, drawImage, drawMosaic } = ctx.helper;
 		let { x, y, canvasWidth, canvasPadding, canvasHeight, cellWidth, cellHeight, indent, innerWidth, fontSize } = config;
-		if (params.saleType === 1) { // 同步拍
-			// 品牌型号
-			fillText(canvasCtx, { text: '拍卖公司', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
-			fillLine(canvasCtx, { sX: x + cellWidth * 3 - 1, sY: y, eX: x + cellWidth * 3 - 1, eY: y + cellHeight });
-			autoFillText(canvasCtx, { text: params.auctionCompany, width: cellWidth * 5 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y, paddingTop: 2, lineHeight: (cellHeight / 2), textAlign: 'left' });
-			fillLine(canvasCtx, { sX: x + cellWidth * 8 - 1, sY: y, eX: x + cellWidth * 8 - 1, eY: y + cellHeight });
-			fillText(canvasCtx, { text: '拍卖会', x: x + cellWidth * 8 + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
-			fillLine(canvasCtx, { sX: x + cellWidth * 11 - 1, sY: y, eX: x + cellWidth * 11 - 1, eY: y + cellHeight });
-			autoFillText(canvasCtx, { text: '2022年8月31日汽车街天津二手车拍卖会2022年8月31日汽车街天津二手车拍卖会', fontSize: fontSize + 'px', width: cellWidth * 5 - indent * 2, height: cellHeight, x: x + cellWidth * 11 + indent, y, paddingTop: 0, lineHeight: (cellHeight / 2), textAlign: 'left' });
-			fillLine(canvasCtx, { sX: x + cellWidth * 16 - 1, sY: y, eX: x + cellWidth * 16 - 1, eY: y + cellHeight });
-			fillText(canvasCtx, { text: '买受人', x: x + cellWidth * 16 + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
-			fillLine(canvasCtx, { sX: x + cellWidth * 19 - 1, sY: y, eX: x + cellWidth * 19 - 1, eY: y + cellHeight });
-			autoFillText(canvasCtx, { text: params.bidderName, width: cellWidth * 5 - indent * 2, height: cellHeight, x: x + cellWidth * 19 + indent, y, paddingTop: 2, lineHeight: (cellHeight / 2), textAlign: 'left' });
-			fillLine(canvasCtx, { sX: x + cellWidth * 24 - 1, sY: y, eX: x + cellWidth * 24 - 1, eY: y + cellHeight });
-			y = y + cellHeight;
-			fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
+		// 品牌型号
+		fillText(canvasCtx, { text: '拍卖公司', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
+		fillLine(canvasCtx, { sX: x + cellWidth * 3 - 1, sY: y, eX: x + cellWidth * 3 - 1, eY: y + cellHeight });
+		autoFillText(canvasCtx, { text: params.auctionCompany, width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y, paddingTop: 2, lineHeight: (cellHeight / 2), textAlign: 'left' });
+		fillLine(canvasCtx, { sX: x + cellWidth * 12 - 1, sY: y, eX: x + cellWidth * 12 - 1, eY: y + cellHeight });
+		fillText(canvasCtx, { text: '拍卖会', x: x + cellWidth * 12 + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
+		fillLine(canvasCtx, { sX: x + cellWidth * 15 - 1, sY: y, eX: x + cellWidth * 15 - 1, eY: y + cellHeight });
+		autoFillText(canvasCtx, { text: params.auctionTitle, fontSize: fontSize + 'px', width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 15 + indent, y, paddingTop: 0, lineHeight: (cellHeight / 2), textAlign: 'left' });
+		y = y + cellHeight;
+		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
 
-			fillText(canvasCtx, { text: '成交总额', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
-			fillLine(canvasCtx, { sX: x + cellWidth * 3 - 1, sY: y, eX: x + cellWidth * 3 - 1, eY: y + cellHeight });
-			fillText(canvasCtx, { text: params.totalPriceString ? (`¥ ${params.totalPriceString}（大写）¥ ${params.totalPriceChinese}整`) : '', width: cellWidth * 13 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y: y + cellHeight / 2, textAlign: 'left' });
-			fillLine(canvasCtx, { sX: x + cellWidth * 16 - 1, sY: y, eX: x + cellWidth * 16 - 1, eY: y + cellHeight });
-			fillText(canvasCtx, { text: '车辆数', x: x + cellWidth * 16 + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
-			fillLine(canvasCtx, { sX: x + cellWidth * 19 - 1, sY: y, eX: x + cellWidth * 19 - 1, eY: y + cellHeight });
-			autoFillText(canvasCtx, { text: '3 (具体信息参见附录)', width: cellWidth * 5 - indent * 2, height: cellHeight, x: x + cellWidth * 19 + indent, y, paddingTop: 2, lineHeight: (cellHeight / 2), textAlign: 'left' });
-			fillLine(canvasCtx, { sX: x + cellWidth * 24 - 1, sY: y, eX: x + cellWidth * 24 - 1, eY: y + cellHeight });
-			y = y + cellHeight;
-			fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
-		} else {
-			fillText(canvasCtx, { text: '买受人', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
-			fillLine(canvasCtx, { sX: x + cellWidth * 3 - 1, sY: y, eX: x + cellWidth * 3 - 1, eY: y + cellHeight });
-			autoFillText(canvasCtx, { text: params.bidderName, width: cellWidth * 5 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y, paddingTop: 2, lineHeight: (cellHeight / 2), textAlign: 'left' });
-			fillLine(canvasCtx, { sX: x + cellWidth * 8 - 1, sY: y, eX: x + cellWidth * 8 - 1, eY: y + cellHeight });
-			fillText(canvasCtx, { text: '车辆数', x: x + cellWidth * 8 + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
-			fillLine(canvasCtx, { sX: x + cellWidth * 11 - 1, sY: y, eX: x + cellWidth * 11 - 1, eY: y + cellHeight });
-			autoFillText(canvasCtx, { text: '3 (具体信息参见附录)', width: cellWidth * 5 - indent * 2, height: cellHeight, x: x + cellWidth * 11 + indent, y, paddingTop: 2, lineHeight: (cellHeight / 2), textAlign: 'left' });
-			fillLine(canvasCtx, { sX: x + cellWidth * 16 - 1, sY: y, eX: x + cellWidth * 16 - 1, eY: y + cellHeight });
-			fillText(canvasCtx, { text: '成交日期', x: x + cellWidth * 16 + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
-			fillLine(canvasCtx, { sX: x + cellWidth * 19 - 1, sY: y, eX: x + cellWidth * 19 - 1, eY: y + cellHeight });
-			fillText(canvasCtx, { text: '2022-09-09', x: x + cellWidth * 19 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+		fillText(canvasCtx, { text: '买受人', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
+		fillLine(canvasCtx, { sX: x + cellWidth * 3 - 1, sY: y, eX: x + cellWidth * 3 - 1, eY: y + cellHeight });
+		autoFillText(canvasCtx, { text: params.bidderName, width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y, paddingTop: 2, lineHeight: (cellHeight / 2), textAlign: 'left' });
+		fillLine(canvasCtx, { sX: x + cellWidth * 12 - 1, sY: y, eX: x + cellWidth * 12 - 1, eY: y + cellHeight });
+		fillText(canvasCtx, { text: '车辆数', x: x + cellWidth * 12 + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
+		fillLine(canvasCtx, { sX: x + cellWidth * 15 - 1, sY: y, eX: x + cellWidth * 15 - 1, eY: y + cellHeight });
+		autoFillText(canvasCtx, { text: '3 (具体信息参见附录)', width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 15 + indent, y, paddingTop: 2, lineHeight: (cellHeight / 2), textAlign: 'left' });
+		y = y + cellHeight;
+		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
 
-			y = y + cellHeight;
-			fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
+		// 成交车价
+		fillText(canvasCtx, { text: '成交车价', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
+		fillLine(canvasCtx, { sX: x + cellWidth * 3 - 1, sY: y, eX: x + cellWidth * 3 - 1, eY: y + cellHeight });
+		fillText(canvasCtx, { text: params.finalPriceString ? (`¥ ${params.finalPriceString}`) : '', width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+		fillLine(canvasCtx, { sX: x + cellWidth * 12 - 1, sY: y, eX: x + cellWidth * 12 - 1, eY: y + cellHeight });
+		fillText(canvasCtx, { text: '佣金', x: x + cellWidth * 12 + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
+		fillLine(canvasCtx, { sX: x + cellWidth * 15 - 1, sY: y, eX: x + cellWidth * 15 - 1, eY: y + cellHeight });
+		const buyerCommissionFeeString = params.buyerCommissionFeeString ? (`¥ ${params.buyerCommissionFeeString}`) : '';
+		fillText(canvasCtx, { text: buyerCommissionFeeString, width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 15 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+		params.withMosaic && drawMosaic(canvasCtx, { x: x + cellWidth * 15 + indent, y, width: getWidth(canvasCtx, buyerCommissionFeeString) });
+		y = y + cellHeight;
+		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
 
-			fillText(canvasCtx, { text: '成交总额', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
-			fillLine(canvasCtx, { sX: x + cellWidth * 3 - 1, sY: y, eX: x + cellWidth * 3 - 1, eY: y + cellHeight });
-			fillText(canvasCtx, { text: params.totalPriceString ? (`¥ ${params.totalPriceString}（大写）¥ ${params.totalPriceChinese}整`) : '', width: cellWidth * 21 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y: y + cellHeight / 2, textAlign: 'left' });
-			y = y + cellHeight;
-			fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
+		// 储运费
+		fillText(canvasCtx, { text: '储运费', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
+		fillLine(canvasCtx, { sX: x + cellWidth * 3 - 1, sY: y, eX: x + cellWidth * 3 - 1, eY: y + cellHeight });
+		const exWarehouseFeeString = params.exWarehouseFeeString ? (`¥ ${params.exWarehouseFeeString}`) : '';
+		fillText(canvasCtx, { text: exWarehouseFeeString, width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+		params.withMosaic && drawMosaic(canvasCtx, { x: x + cellWidth * 3 + indent, y, width: getWidth(canvasCtx, exWarehouseFeeString) });
+		fillLine(canvasCtx, { sX: x + cellWidth * 12 - 1, sY: y, eX: x + cellWidth * 12 - 1, eY: y + cellHeight });
+		fillText(canvasCtx, { text: '交付服务费', x: x + cellWidth * 12 + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
+		fillLine(canvasCtx, { sX: x + cellWidth * 15 - 1, sY: y, eX: x + cellWidth * 15 - 1, eY: y + cellHeight });
+		const deliveryFeeString = params.deliveryFeeString ? (`¥ ${params.deliveryFeeString}`) : '';
+		fillText(canvasCtx, { text: deliveryFeeString, width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 15 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+		params.withMosaic && drawMosaic(canvasCtx, { x: x + cellWidth * 15 + indent, y, width: getWidth(canvasCtx, deliveryFeeString) });
+		y = y + cellHeight;
+		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
 
-		}
+		// 成交总额
+		fillText(canvasCtx, { text: '成交总额', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
+		fillLine(canvasCtx, { sX: x + cellWidth * 3 - 1, sY: y, eX: x + cellWidth * 3 - 1, eY: y + cellHeight });
+		const totalTurnoverPriceString = params.totalTurnoverPriceString ? (`¥ ${params.totalTurnoverPriceString}（大写）¥ ${params.totalTurnoverPriceChinese}整`) : '';
+		fillText(canvasCtx, { text: totalTurnoverPriceString, width: cellWidth * 21 - indent * 2, height: cellHeight, x: x + cellWidth * 3 + indent, y: y + cellHeight / 2, textAlign: 'left' });
+		params.withMosaic && drawMosaic(canvasCtx, { x: x + cellWidth * 3 + indent, y, width: getWidth(canvasCtx, totalTurnoverPriceString) });
+		y = y + cellHeight;
+		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
 
 		// 交车时间
 		fillText(canvasCtx, { text: '交车时间', x: x + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
@@ -102,8 +109,8 @@ class DrawService extends Service {
 		return y;
 	}
 
-	// 单车时车辆信息
-	singleCarInfo(canvasCtx, params, config) {
+	// 车辆信息
+	baseInfo(canvasCtx, params, config) {
 		const { ctx } = this;
 		const { fillText, autoFillText, fillTextWarp, fillLine, getWidth, drawImage, drawMosaic } = ctx.helper;
 		let { x, y, canvasWidth, canvasPadding, canvasHeight, cellWidth, cellHeight, indent, innerWidth } = config;
@@ -268,8 +275,8 @@ class DrawService extends Service {
 		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
 		return y;
 	}
-	// 同步拍签字部分
-	async syncAuctionSign(canvasCtx, params, config) {
+	// 打包拍签字部分
+	async packAuctionSign(canvasCtx, params, config) {
 		const { ctx } = this;
 		const { fillText, autoFillText, fillTextWarp, fillLine, getWidth, drawImage } = ctx.helper;
 		let { x, y, canvasWidth, canvasPadding, canvasHeight, cellWidth, cellHeight, indent, innerWidth } = config;
@@ -286,21 +293,21 @@ class DrawService extends Service {
 			await drawImage(canvasCtx, { x: cellWidth * 15.5 + 141 + 20, y: y + 43, width: 136, height: 68, src: signImg });
 		}
 		fillText(canvasCtx, { text: '日期', x: canvasPadding + cellWidth * 12 + cellWidth * 3.5 / 2, y: y + 155 + 20, textAlign: 'center', fontWeight: 'bold' });
-		fillText(canvasCtx, { text: params.signDateString, x: canvasPadding + cellWidth * 15.5 + cellWidth * 8.5 / 2, y: y + 155 + 20, textAlign: 'center'});
+		fillText(canvasCtx, { text: params.signDateString, x: canvasPadding + cellWidth * 15.5 + cellWidth * 8.5 / 2, y: y + 155 + 20, textAlign: 'center' });
 		y = y + 200;
 		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
 
 		return y;
 	}
-	// 非同步拍签字
-	async otherAuctionSign(canvasCtx, params, config) {
+	// 非打包拍签字
+	async auctionSign(canvasCtx, params, config) {
 		const { ctx } = this;
 		const { fillText, autoFillText, fillTextWarp, fillLine, getWidth, drawImage } = ctx.helper;
 		let { x, y, canvasWidth, canvasPadding, canvasHeight, cellWidth, cellHeight, indent, innerWidth } = config;
-		const tabeleCellHeight = 112;
-		fillLine(canvasCtx, { sX: x + cellWidth * 3.5 - 1, sY: y, eX: x + cellWidth * 3.5 - 1, eY: y + tabeleCellHeight });
-		fillLine(canvasCtx, { sX: x + cellWidth * 12 - 1, sY: y, eX: x + cellWidth * 12 - 1, eY: y + tabeleCellHeight });
-		fillLine(canvasCtx, { sX: x + cellWidth * 15.5 - 1, sY: y, eX: x + cellWidth * 15.5 - 1, eY: y + tabeleCellHeight });
+		const siginCellHeight = 112;
+		fillLine(canvasCtx, { sX: x + cellWidth * 3.5 - 1, sY: y, eX: x + cellWidth * 3.5 - 1, eY: y + siginCellHeight });
+		fillLine(canvasCtx, { sX: x + cellWidth * 12 - 1, sY: y, eX: x + cellWidth * 12 - 1, eY: y + siginCellHeight });
+		fillLine(canvasCtx, { sX: x + cellWidth * 15.5 - 1, sY: y, eX: x + cellWidth * 15.5 - 1, eY: y + siginCellHeight });
 		fillText(canvasCtx, { text: '买受人/经办人', x: canvasPadding + cellWidth * 3.5 / 2, y: y + 24 + 16, textAlign: 'center', fontWeight: 'bold' });
 		fillText(canvasCtx, { text: '（签字）', x: canvasPadding + cellWidth * 3.5 / 2, y: y + 24 + 32 + 10, textAlign: 'center', fontWeight: 'bold' });
 		if (params.signUrl) {
@@ -308,71 +315,76 @@ class DrawService extends Service {
 			await drawImage(canvasCtx, { x: cellWidth * 3.5 + 141 + 20, y: y + 22, width: 136, height: 68, src: signImg });
 		}
 		fillText(canvasCtx, { text: '日期', x: canvasPadding + cellWidth * 12 + cellWidth * 3.5 / 2, y: y + 36 + 16, textAlign: 'center', fontWeight: 'bold' });
-		fillText(canvasCtx, { text: params.signDateString, x: canvasPadding + cellWidth * 15.5 + cellWidth * 8.5 / 2, y: y + 36 + 16, textAlign: 'center'});
+		fillText(canvasCtx, { text: params.signDateString, x: canvasPadding + cellWidth * 15.5 + cellWidth * 8.5 / 2, y: y + 36 + 16, textAlign: 'center' });
 
-		y = y + tabeleCellHeight;
+		y = y + siginCellHeight;
 		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
 
 		return y;
 	}
 
-	// 多车车辆信息
-	carList(canvasCtx, params, config) {
+	// 打包拍车辆列表
+	vehicleList(canvasCtx, params, config) {
 		const { ctx } = this;
 		const { fillText, autoFillText, fillTextWarp, fillLine, getWidth, getLines } = ctx.helper;
 		let { x, y, canvasWidth, canvasPadding, canvasHeight, cellWidth, cellHeight, indent, innerWidth } = config;
+		fillText(canvasCtx, { text: '成交车辆附录（共200辆）', x: x + cellWidth * 12, y: y + cellHeight / 2, fontWeight: 'bold' });
 		y = y + cellHeight;
-		const tableSy = y, tableCellHeight = 176, tableFontSize = '16px';
+		const tableSy = y,
+			tableCellHeight = 50,
+			tableFontSize = '16px';
+		// 单元格宽度
+		const indexSpan = 1.5,
+			licenseCodeSpan = 2.5,
+			vinSpan = 5,
+			vechileNameAllSpan = 15;
 		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
-		fillText(canvasCtx, { text: '序号', x: x + cellWidth * 1.5 / 2, y: y + cellHeight / 2, fontWeight: 'bold' });
-		fillText(canvasCtx, { text: '车辆信息', x: x + cellWidth * 1.5 + cellWidth * 6.5 / 2, y: y + cellHeight / 2, fontWeight: 'bold' });
-		fillText(canvasCtx, { text: '成交总额', x: x + cellWidth * 8 + cellWidth * 3 / 2, y: y + cellHeight / 2, fontWeight: 'bold' });
-		fillText(canvasCtx, { text: '成交车价', x: x + cellWidth * 11 + cellWidth * 3 / 2, y: y + cellHeight / 2, fontWeight: 'bold' });
-		fillText(canvasCtx, { text: '佣金', x: x + cellWidth * 14 + cellWidth * 2.5 / 2, y: y + cellHeight / 2, fontWeight: 'bold' });
-		fillText(canvasCtx, { text: '储运费', x: x + cellWidth * 16.5 + cellWidth * 2.5 / 2, y: y + cellHeight / 2, fontWeight: 'bold' });
-		fillText(canvasCtx, { text: '办证费', x: x + cellWidth * 19 + cellWidth * 2.5 / 2, y: y + cellHeight / 2, fontWeight: 'bold' });
-		fillText(canvasCtx, { text: '交付服务费', x: x + cellWidth * 21.5 + cellWidth * 2.5 / 2, y: y + cellHeight / 2, fontWeight: 'bold' });
-
+		fillText(canvasCtx, { text: '序号', x: x + cellWidth * indexSpan / 2, y: y + cellHeight / 2, fontWeight: 'bold' });
+		fillText(canvasCtx, { text: '原车牌号', x: x + cellWidth * indexSpan + cellWidth * licenseCodeSpan / 2, y: y + cellHeight / 2, fontWeight: 'bold' });
+		fillText(canvasCtx, { text: '车架号', x: x + cellWidth * (indexSpan + licenseCodeSpan) + cellWidth * vinSpan / 2, y: y + cellHeight / 2, fontWeight: 'bold' });
+		fillText(canvasCtx, { text: '品牌型号', x: x + cellWidth * (indexSpan + licenseCodeSpan + vinSpan) + cellWidth * vechileNameAllSpan / 2, y: y + cellHeight / 2, fontWeight: 'bold' });
 		y = y + cellHeight;
 		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
 
-		// 绘制车辆信息单元格
-		function renderCarInfo() {
-			let _y = y + 10;
-			const lh = 20;
-			const lineSpace = 20;
-			fillText(canvasCtx, { text: '订单编号：3722092318574410', x: x + cellWidth * 1.5 + indent, y: _y + lh / 2, fontSize: tableFontSize, textAlign: 'left' });
-			_y += lineSpace + lh;
-			const car = '品牌型号：奔驰 C级 2018款 C 180 L 1.6T 手自一体 时尚型运动版品牌型号：奔驰 C级 2018款 C 180 L 1.6T 手自一体 时尚型运动版';
-			const lines = getLines(canvasCtx, car, '16px', 276);
-			fillTextWarp(canvasCtx, { text: car, x: x + cellWidth * 1.5 + indent, y: _y, width: 276, fontSize: tableFontSize, textAlign: 'left', lineHeight: lh });
-			_y += lines * lh;
-			fillText(canvasCtx, { text: '原车牌号：渝AC63U6', x: x + cellWidth * 1.5 + indent, y: _y + 10, fontSize: tableFontSize, textAlign: 'left' });
-			_y += lh + 5;
-			fillText(canvasCtx, { text: '车架号：LS5A3DBE6DA223653', x: x + cellWidth * 1.5 + indent, y: _y + lh / 2, fontSize: tableFontSize, textAlign: 'left' });
-
-		}
-		[ '111', 2, 3, 4, 5,6 ,78,8,2,2,2,2,2 ].forEach((item, index) => {
-			fillText(canvasCtx, { text: index + 1, x: x + cellWidth * 1.5 / 2, y: y + tableCellHeight / 2, fontSize: tableFontSize });
-			renderCarInfo();
-			fillText(canvasCtx, { text: '¥189,300', x: x + cellWidth * 11 - indent, y: y + tableCellHeight / 2, textAlign: 'right', fontSize: tableFontSize });
-			fillText(canvasCtx, { text: '¥9,189,300', x: x + cellWidth * 14 - indent, y: y + tableCellHeight / 2, textAlign: 'right', fontSize: tableFontSize });
-			fillText(canvasCtx, { text: '¥9,189,300', x: x + cellWidth * 16.5 - indent, y: y + tableCellHeight / 2, textAlign: 'right', fontSize: tableFontSize });
-			fillText(canvasCtx, { text: '¥9,189,300', x: x + cellWidth * 19 - indent, y: y + tableCellHeight / 2, textAlign: 'right', fontSize: tableFontSize });
-			fillText(canvasCtx, { text: '¥9,189,300', x: x + cellWidth * 21.5 - indent, y: y + tableCellHeight / 2, textAlign: 'right', fontSize: tableFontSize });
-			fillText(canvasCtx, { text: '¥9,189,300', x: x + cellWidth * 24 - indent, y: y + tableCellHeight / 2, textAlign: 'right', fontSize: tableFontSize });
+		// 页面分割处 需要绘制白线覆盖灰线
+		const dividerCoordinate = [];
+		new Array(200).fill('').forEach((item, index) => {
+			if ((1754 - y % 1754) <= (47.5 + 15)) {
+				dividerCoordinate.push([ x, y, x, y + 100 ]);
+				dividerCoordinate.push([ x + cellWidth * indexSpan - 1, y, x + cellWidth * indexSpan - 1, y + 100 ]);
+				dividerCoordinate.push([ x + cellWidth * (indexSpan + licenseCodeSpan) - 1, y, x + cellWidth * (indexSpan + licenseCodeSpan) - 1, y + 100 ]);
+				dividerCoordinate.push([ x + cellWidth * (indexSpan + licenseCodeSpan + vinSpan) - 1, y, x + cellWidth * (indexSpan + licenseCodeSpan + vinSpan) - 1, y + 100 ]);
+				dividerCoordinate.push([ x + cellWidth * 24 - 1, y, x + cellWidth * 24 - 1, y + 100 ]);
+				y += 100;
+				fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
+			}
+			fillText(canvasCtx, { text: index + 1, x: x + cellWidth * indexSpan / 2, y: y + tableCellHeight / 2, fontSize: tableFontSize });
+			fillText(canvasCtx, { text: '渝AC63U6', x: x + cellWidth * (indexSpan + licenseCodeSpan / 2), y: y + tableCellHeight / 2, fontSize: tableFontSize });
+			fillText(canvasCtx, { text: 'LS5A3DBE6DA223653', x: x + cellWidth * (indexSpan + licenseCodeSpan + vinSpan / 2), y: y + tableCellHeight / 2, fontSize: tableFontSize });
+			autoFillText(canvasCtx, {
+				text: '品牌型号：奔驰 C级 2018款 C 180 L 1.6T 手自一体 时尚型运动版品牌型号：奔驰 C级 2018款',
+				width: cellWidth * vechileNameAllSpan - indent * 2, height: cellHeight, x: x + cellWidth * (indexSpan + licenseCodeSpan + vinSpan) + indent, y,
+				paddingTop: 0, lineHeight: (cellHeight / 2), textAlign: 'left', maxLines: 3, fontSize: tableFontSize });
 			y += tableCellHeight;
 			fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
 		});
-		fillLine(canvasCtx, { sX: x + cellWidth * 1.5 - 1, sY: tableSy, eX: x + cellWidth * 1.5 - 1, eY: y });
-		fillLine(canvasCtx, { sX: x + cellWidth * 8 - 1, sY: tableSy, eX: x + cellWidth * 8 - 1, eY: y });
-		fillLine(canvasCtx, { sX: x + cellWidth * 11 - 1, sY: tableSy, eX: x + cellWidth * 11 - 1, eY: y });
-		fillLine(canvasCtx, { sX: x + cellWidth * 14 - 1, sY: tableSy, eX: x + cellWidth * 14 - 1, eY: y });
-		fillLine(canvasCtx, { sX: x + cellWidth * 16.5 - 1, sY: tableSy, eX: x + cellWidth * 16.5 - 1, eY: y });
-		fillLine(canvasCtx, { sX: x + cellWidth * 19 - 1, sY: tableSy, eX: x + cellWidth * 19 - 1, eY: y });
-		fillLine(canvasCtx, { sX: x + cellWidth * 21.5 - 1, sY: tableSy, eX: x + cellWidth * 21.5 - 1, eY: y });
+		fillLine(canvasCtx, { sX: x + cellWidth * indexSpan - 1, sY: tableSy, eX: x + cellWidth * indexSpan - 1, eY: y });
+		fillLine(canvasCtx, { sX: x + cellWidth * (indexSpan + licenseCodeSpan) - 1, sY: tableSy, eX: x + cellWidth * (indexSpan + licenseCodeSpan) - 1, eY: y });
+		fillLine(canvasCtx, { sX: x + cellWidth * (indexSpan + licenseCodeSpan + vinSpan) - 1, sY: tableSy, eX: x + cellWidth * (indexSpan + licenseCodeSpan + vinSpan) - 1, eY: y });
 
-		return y;
+		return { y, dividerCoordinate };
+	}
+
+	//
+	dividerCoordinate(canvasCtx, array) {
+		const { ctx } = this;
+		const { fillLine } = ctx.helper;
+		array.forEach(item => {
+			let [ sX, sY, eX, eY ] = item;
+			sY++;
+			eY--;
+			fillLine(canvasCtx, { sX, sY, eX, eY, color: '#fff', width: 4 });
+		});
 	}
 }
 
