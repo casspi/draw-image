@@ -376,9 +376,9 @@ class HomeController extends Controller {
 
 	async draw() {
 		const { ctx } = this;
-
 		ctx.logger.info('request=>draw', ctx.request.body);
-		const params = ctx.request.body;
+		let params = ctx.request.body;
+
 		try {
 			const { fillText, autoFillText, fillTextWarp, fillLine, getWidth, drawImage } = ctx.helper;
 
@@ -387,14 +387,17 @@ class HomeController extends Controller {
 			// // 设备像素比
 			// let { ratio } = params;
 			// ratio = ratio * multiple;
-			const isPack = true;
+			params.auctionPackageFlag = !!params.appendixList;
+			let	canvasHeight = 1754 * multiple; // 图片高度
 			const canvasWidth = 1240 * multiple, // 图片宽度
-				canvasHeight = (1754 + (2 - 2) * 176) * 7 * multiple, // 图片高度
 				canvasPadding = 50 * multiple, // 左右边距
 				cellHeight = 48 * multiple, // 单元格高度
 				cellWidth = 47.5 * multiple, // 单元格宽度
 				fontSize = 18 * multiple,
 				indent = 16 * multiple;
+			if (params.auctionPackageFlag) {// 是否是打包拍
+				canvasHeight = 1754 * (1 + Math.ceil((params.appendixList.length - 9) / 33)) * multiple;
+			}
 
 			const innerWidth = canvasWidth - canvasPadding * 2;// 内容区宽度
 			const configSize = { canvasWidth, canvasPadding, canvasHeight, cellWidth, cellHeight, fontSize, indent, innerWidth };
@@ -415,7 +418,7 @@ class HomeController extends Controller {
 			// 第一行
 			fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: canvasWidth - canvasPadding, eY: y, color: '#666' });
 			// 车辆信息
-			if (isPack) { // 打包拍
+			if (params.auctionPackageFlag) { // 打包拍
 				y = ctx.service.draw.packBaseInfo(canvasCtx, params, { x: canvasPadding, y, ...configSize });
 			} else {
 				y = ctx.service.draw.baseInfo(canvasCtx, params, { x: canvasPadding, y, ...configSize });
@@ -426,14 +429,14 @@ class HomeController extends Controller {
 			y = ctx.service.draw.totalPrice(canvasCtx, params, { x: canvasPadding, y, ...configSize });
 			let dividerCoordinate = [];
 			// 盖章/签字
-			if (isPack) { // 打包拍
-				y = await ctx.service.draw.packAuctionSign(canvasCtx, params, { x: canvasPadding, y, ...configSize });
+			y = await ctx.service.draw.auctionSign(canvasCtx, params, { x: canvasPadding, y, ...configSize });
+
+			if (params.auctionPackageFlag) { // 打包拍
+				// y = await ctx.service.draw.packAuctionSign(canvasCtx, params, { x: canvasPadding, y, ...configSize });
 				// 车辆列表
 				const { y: resY, dividerCoordinate: resDividerCoordinate } = ctx.service.draw.vehicleList(canvasCtx, params, { x: canvasPadding, y, ...configSize });
 				y = resY;
 				dividerCoordinate = resDividerCoordinate;
-			} else {
-				y = await ctx.service.draw.auctionSign(canvasCtx, params, { x: canvasPadding, y, ...configSize });
 			}
 
 			// 左外边框

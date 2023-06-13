@@ -58,7 +58,7 @@ class DrawService extends Service {
 		fillLine(canvasCtx, { sX: x + cellWidth * 12 - 1, sY: y, eX: x + cellWidth * 12 - 1, eY: y + cellHeight });
 		fillText(canvasCtx, { text: '车辆数', x: x + cellWidth * 12 + indent, y: y + cellHeight / 2, textAlign: 'left', fontWeight: 'bold' });
 		fillLine(canvasCtx, { sX: x + cellWidth * 15 - 1, sY: y, eX: x + cellWidth * 15 - 1, eY: y + cellHeight });
-		autoFillText(canvasCtx, { text: '3 (具体信息参见附录)', width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 15 + indent, y, paddingTop: 2, lineHeight: (cellHeight / 2), textAlign: 'left' });
+		autoFillText(canvasCtx, { text: `${params.appendixList.length}(具体信息参见附录)`, width: cellWidth * 9 - indent * 2, height: cellHeight, x: x + cellWidth * 15 + indent, y, paddingTop: 2, lineHeight: (cellHeight / 2), textAlign: 'left' });
 		y = y + cellHeight;
 		fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
 
@@ -328,7 +328,7 @@ class DrawService extends Service {
 		const { ctx } = this;
 		const { fillText, autoFillText, fillTextWarp, fillLine, getWidth, getLines } = ctx.helper;
 		let { x, y, canvasWidth, canvasPadding, canvasHeight, cellWidth, cellHeight, indent, innerWidth } = config;
-		fillText(canvasCtx, { text: '成交车辆附录（共200辆）', x: x + cellWidth * 12, y: y + cellHeight / 2, fontWeight: 'bold' });
+		fillText(canvasCtx, { text: `成交车辆附录（共${params.appendixList.length}辆）`, x: x + cellWidth * 12, y: y + cellHeight / 2, fontWeight: 'bold' });
 		y = y + cellHeight;
 		const tableSy = y,
 			tableCellHeight = 50,
@@ -348,7 +348,8 @@ class DrawService extends Service {
 
 		// 页面分割处 需要绘制白线覆盖灰线
 		const dividerCoordinate = [];
-		new Array(200).fill('').forEach((item, index) => {
+		params.appendixList.forEach((item, index) => {
+			// 画满一张A4
 			if ((1754 - y % 1754) <= (47.5 + 15)) {
 				dividerCoordinate.push([ x, y, x, y + 100 ]);
 				dividerCoordinate.push([ x + cellWidth * indexSpan - 1, y, x + cellWidth * indexSpan - 1, y + 100 ]);
@@ -359,12 +360,12 @@ class DrawService extends Service {
 				fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
 			}
 			fillText(canvasCtx, { text: index + 1, x: x + cellWidth * indexSpan / 2, y: y + tableCellHeight / 2, fontSize: tableFontSize });
-			fillText(canvasCtx, { text: '渝AC63U6', x: x + cellWidth * (indexSpan + licenseCodeSpan / 2), y: y + tableCellHeight / 2, fontSize: tableFontSize });
-			fillText(canvasCtx, { text: 'LS5A3DBE6DA223653', x: x + cellWidth * (indexSpan + licenseCodeSpan + vinSpan / 2), y: y + tableCellHeight / 2, fontSize: tableFontSize });
+			fillText(canvasCtx, { text: item.licenseCode, x: x + cellWidth * (indexSpan + licenseCodeSpan / 2), y: y + tableCellHeight / 2, fontSize: tableFontSize });
+			fillText(canvasCtx, { text: item.vinCode, x: x + cellWidth * (indexSpan + licenseCodeSpan + vinSpan / 2), y: y + tableCellHeight / 2, fontSize: tableFontSize });
 			autoFillText(canvasCtx, {
-				text: '品牌型号：奔驰 C级 2018款 C 180 L 1.6T 手自一体 时尚型运动版品牌型号：奔驰 C级 2018款',
+				text: item.vechileName,
 				width: cellWidth * vechileNameAllSpan - indent * 2, height: cellHeight, x: x + cellWidth * (indexSpan + licenseCodeSpan + vinSpan) + indent, y,
-				paddingTop: 0, lineHeight: (cellHeight / 2), textAlign: 'left', maxLines: 3, fontSize: tableFontSize });
+				paddingTop: 0, lineHeight: (cellHeight / 2), textAlign: 'left', maxLines: 2, fontSize: tableFontSize });
 			y += tableCellHeight;
 			fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth + canvasPadding, eY: y });
 		});
@@ -375,7 +376,7 @@ class DrawService extends Service {
 		return { y, dividerCoordinate };
 	}
 
-	//
+	// 补漆
 	dividerCoordinate(canvasCtx, array) {
 		const { ctx } = this;
 		const { fillLine } = ctx.helper;

@@ -53,7 +53,6 @@ const fillTextWarp = (ctx, opt) => {
 		}
 
 	}
-	// console.log(text, x, y, width, maxLines);
 };
 
 // 计算行数   这是为了计算行高而做的函数
