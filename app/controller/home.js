@@ -365,7 +365,8 @@ const historyVersion = async ctx => {
 class HomeController extends Controller {
 	async index() {
 		const { ctx } = this;
-		ctx.body = 'hi, egg';
+		// ctx.body = 'hi, egg';
+		ctx.redirect('/public/apidoc/index.html');
 	}
 
 	async historyBill() {
@@ -374,6 +375,17 @@ class HomeController extends Controller {
 		await historyVersion(ctx);
 	}
 
+	/**
+	 * @apiVersion 1.0.0
+	 * @api {post} /drawImage  绘制成交确认单
+	 * @apiGroup app成交确认单
+	 *
+	 * @apiBody  {String} title 成交确认单标题
+	 * @apiBody  {String} [test] 其他
+	 *
+	 * @apiSuccess (成功) {Object} data
+	 * @apiSampleRequest /drawImage
+	 */
 	async draw() {
 		const { ctx } = this;
 
