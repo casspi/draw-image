@@ -10,5 +10,5 @@ module.exports = app => {
 	// router.post('/drawImage', controller.home.drawOld);
 	router.post('/drawImage', controller.home.draw);
 	router.post('/historyBill', controller.home.historyBill);
-	router.post('/drawTradeCertificate', controller.home.tradeCertificate);
+	router.post('/drawTradeCertificate', controller.drawTradeCertificate.tradeCertificate);
 };
