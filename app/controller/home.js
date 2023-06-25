@@ -377,7 +377,7 @@ class HomeController extends Controller {
 	async draw() {
 		const { ctx } = this;
 		ctx.logger.info('request=>draw', ctx.request.body);
-		let params = ctx.request.body;
+		const params = ctx.request.body;
 
 		try {
 			const { fillText, autoFillText, fillTextWarp, fillLine, getWidth, drawImage } = ctx.helper;
@@ -395,7 +395,7 @@ class HomeController extends Controller {
 				cellWidth = 47.5 * multiple, // 单元格宽度
 				fontSize = 18 * multiple,
 				indent = 16 * multiple;
-			if (params.auctionPackageFlag) {// 是否是打包拍
+			if (params.auctionPackageFlag) { // 是否是打包拍
 				canvasHeight = 1754 * (1 + Math.ceil((params.appendixList.length - 9) / 33)) * multiple;
 			}
 
