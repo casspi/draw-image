@@ -349,8 +349,9 @@ class DrawService extends Service {
 		// 页面分割处 需要绘制白线覆盖灰线
 		const dividerCoordinate = [];
 		params.appendixList.forEach((item, index) => {
-			// 画满一张A4
-			if ((1754 - y % 1754) <= (47.5 + 15)) {
+
+			// 画满一张A4,PC端打印图片有缩放，这里分割区域通过验证得来2060
+			if ((2060 - y % 2060) <= (50 + 15)) {
 				dividerCoordinate.push([ x, y, x, y + 100 ]);
 				dividerCoordinate.push([ x + cellWidth * indexSpan - 1, y, x + cellWidth * indexSpan - 1, y + 100 ]);
 				dividerCoordinate.push([ x + cellWidth * (indexSpan + licenseCodeSpan) - 1, y, x + cellWidth * (indexSpan + licenseCodeSpan) - 1, y + 100 ]);
@@ -376,7 +377,7 @@ class DrawService extends Service {
 		return { y, dividerCoordinate };
 	}
 
-	// 补漆
+	// 多余边框涂白
 	dividerCoordinate(canvasCtx, array) {
 		const { ctx } = this;
 		const { fillLine } = ctx.helper;
