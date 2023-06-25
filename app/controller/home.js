@@ -4,6 +4,7 @@ const Controller = require('egg').Controller;
 const path = require('path');
 const { promisify } = require('util');
 const { createCanvas, registerFont } = require('canvas');
+const { fillText } = require('../extend/helper');
 registerFont(path.join(__dirname, '../public/assets/fonts/MSYH.TTF'), { family: 'MSYH' });
 registerFont(path.join(__dirname, '../public/assets/fonts/MSYHBD.TTF'), { family: 'MSYHBD' });
 
@@ -425,18 +426,19 @@ class HomeController extends Controller {
 
 			// 每行起点 y坐标
 			// 第一行
-			fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: canvasWidth - canvasPadding, eY: y, color: '#666' });
+			await ctx.service.tradeCertificate.drawTitle(canvasCtx, configSize);
+			// fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: canvasWidth - canvasPadding, eY: y, color: '#666' });
 
 			// 多辆车辆订单信息
 			// y = ctx.service.draw.baseInfo(canvasCtx, params, { x: canvasPadding, y, ...configSize });
 			// 单车车辆信息
-			y = ctx.service.draw.singleCarInfo(canvasCtx, params, { x: canvasPadding, y, ...configSize });
+			// y = ctx.service.draw.singleCarInfo(canvasCtx, params, { x: canvasPadding, y, ...configSize });
 			// 增值服务信息
-			y = await ctx.service.draw.valueAddedService(canvasCtx, params, { x: canvasPadding, y, ...configSize });
+			// y = await ctx.service.draw.valueAddedService(canvasCtx, params, { x: canvasPadding, y, ...configSize });
 			// 交易总额
-			y = ctx.service.draw.totalPrice(canvasCtx, params, { x: canvasPadding, y, ...configSize });
+			// y = ctx.service.draw.totalPrice(canvasCtx, params, { x: canvasPadding, y, ...configSize });
 			// 盖章/签字
-			y = await ctx.service.draw.otherAuctionSign(canvasCtx, params, { x: canvasPadding, y, ...configSize });
+			// y = await ctx.service.draw.otherAuctionSign(canvasCtx, params, { x: canvasPadding, y, ...configSize });
 
 			// if (params.saleType === 1) { // 同步拍
 			// 	y = await ctx.service.draw.syncAuctionSign(canvasCtx, params, { x: canvasPadding, y, ...configSize });
@@ -448,9 +450,9 @@ class HomeController extends Controller {
 			// y = ctx.service.draw.carList(canvasCtx, params, { x: canvasPadding, y, ...configSize });
 
 			// 左外边框
-			fillLine(canvasCtx, { sX: canvasPadding, sY: 165, eX: canvasPadding, eY: y });
+			// fillLine(canvasCtx, { sX: canvasPadding, sY: 165, eX: canvasPadding, eY: y });
 			// 右外边框
-			fillLine(canvasCtx, { sX: canvasPadding + innerWidth, sY: 165, eX: canvasPadding + innerWidth, eY: y });
+			// fillLine(canvasCtx, { sX: canvasPadding + innerWidth, sY: 165, eX: canvasPadding + innerWidth, eY: y });
 			// 下外边框
 			// fillLine(canvasCtx, { sX: canvasPadding, sY: y, eX: innerWidth, eY: y });
 
@@ -461,6 +463,71 @@ class HomeController extends Controller {
 			ctx.logger.info(params.orderNo + '成功');
 		} catch (e) {
 			ctx.logger.warn(`request-err=>${params.orderNo}`, e);
+			ctx.body = {
+				code: 999,
+				data: null,
+				message: '系统错误'
+			};
+		}
+	}
+
+	/**
+	 * @apiVersion 1.0.0
+	 * @api {post} /drawTradeCertificate  绘制交易凭证
+	 * @apiGroup app交易凭证
+	 *
+	 * @apiBody  {String} collaborate 合作主体
+	 * 
+	 * @apiBody  {String} createDate 创建日期
+	 * @apiBody  {String} paymentDate 付款日期
+	 * @apiBody  {String} payFee 付款金额
+	 * @apiBody  {String} payFeeChinese 付款金额中文
+	 * @apiBody  {String} vinCode 车架号
+	 * @apiBody  {String} licenseCode 车牌号
+	 * @apiBody  {String} holder 收款方
+	 * @apiBody  {String} holderAccountNumber 收款方账号
+	 * @apiBody  {String} payCompany 付款方
+	 * @apiBody  {String} payAccountNumber 付款方账号
+	 * @apiBody  {String} holderBranchBank 收款方开户行
+	 * @apiBody  {String} payBranchBank 付款方开户行
+	 *
+	 * @apiSuccess (成功) {Object} data
+	 * @apiSampleRequest /tradeCertificate
+	 */
+	async tradeCertificate() {
+		const { ctx } = this;
+
+		ctx.logger.info('request=>tradeCertificate', ctx.request.body);
+		// 图片放大倍数
+		const multiple = 1;
+
+		const canvasWidth = 1476 * multiple;// 图片宽度
+		const canvasPadding = 68 * multiple;// 内边距
+		const canvasHeight = 974 * multiple;// 高度
+		const canvas = createCanvas(canvasWidth, canvasHeight, 'pdf');
+		const canvasCtx = canvas.getContext('2d');
+
+		const cellHeight = 100 * multiple;// 单元格高度
+		const cellWidth = (canvasWidth - 2 * canvasPadding) / 6 * multiple; // 单元格宽度
+		const fontSize = 18 * multiple;
+		const cellPadding = 16 * multiple; // 单元格内边距
+
+		// 画布白色背景
+		canvasCtx.fillStyle = '#fff';
+		canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+		const configSize = { canvasWidth, canvasPadding, canvasHeight, cellWidth, cellHeight, fontSize, cellPadding, };
+
+		try {
+			ctx.service.tradeCertificate.drawTitle(canvasCtx, configSize);
+			ctx.service.tradeCertificate.drawBorder(canvasCtx, configSize);
+			ctx.service.tradeCertificate.drawText(canvasCtx, configSize);
+			ctx.service.tradeCertificate.drawSeal(canvasCtx, configSize);
+			ctx.body = {
+				code: 0,
+				data: ctx.service.tradeCertificate.generatePdfToBase64(canvas)
+			};
+		} catch (e) {
+			ctx.logger.warn('request-err=>', e);
 			ctx.body = {
 				code: 999,
 				data: null,
