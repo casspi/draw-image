@@ -8,9 +8,9 @@ const getWidth = (ctx, text, fontSize, fontWeight) => {
 };
 // 画线
 const fillLine = (ctx, opt) => {
-	const { sX, sY, eX, eY, color } = opt;
-	ctx.lineWidth = 1;
-	ctx.strokeStyle = color || '#666';
+	const { sX, sY, eX, eY, color = '#666', width = 1 } = opt;
+	ctx.lineWidth = width;
+	ctx.strokeStyle = color;
 	ctx.beginPath();
 	ctx.lineTo(sX, sY);
 	ctx.lineTo(eX, eY);
@@ -53,7 +53,6 @@ const fillTextWarp = (ctx, opt) => {
 		}
 
 	}
-	// console.log(text, x, y, width, maxLines);
 };
 
 // 计算行数   这是为了计算行高而做的函数
