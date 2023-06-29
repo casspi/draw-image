@@ -49,12 +49,12 @@ class TradeCertificateService extends Service {
 		];
 		for (let i = 0; i < structArr.length; i++) {
 			// 绘制标题
-			fillText(canvasCtx, { x: canvasPadding + cellWidth / 2, y: 200 + (i + 1 / 2) * cellHeight, text: structArr[i][0].field, fontSize: '25px', color: '#000' });
-			fillText(canvasCtx, { x: canvasPadding + 3.5 * cellWidth, y: 200 + (i + 1 / 2) * cellHeight, text: structArr[i][1].field, fontSize: '25px', color: '#000' });
+			structArr[i][0].field && fillText(canvasCtx, { x: canvasPadding + cellWidth - cellPadding, y: 200 + (i + 1 / 2) * cellHeight, text: structArr[i][0].field, fontSize: '25px', color: '#000', textAlign: 'right' });
+			structArr[i][1].field && fillText(canvasCtx, { x: canvasPadding + 4 * cellWidth - cellPadding, y: 200 + (i + 1 / 2) * cellHeight, text: structArr[i][1].field, fontSize: '25px', color: '#000', textAlign: 'right' });
 
 			// 绘制值
-			autoFillText(canvasCtx, { x: canvasPadding + cellWidth + cellPadding, width: 2 * (cellWidth - cellPadding), y: 150 + (i + 1 / 2) * cellHeight, text: structArr[i][0].value || '', textAlign: 'left', height: cellHeight, lineHeight: cellHeight / 2, fontSize: '20px', color: '#333' });
-			autoFillText(canvasCtx, { x: canvasPadding + 4 * cellWidth + cellPadding, width: 2 * (cellWidth - cellPadding), y: 150 + (i + 1 / 2) * cellHeight, text: structArr[i][1].value || '', textAlign: 'left', height: cellHeight, lineHeight: cellHeight / 2, fontSize: '20px', color: '#333' });
+			structArr[i][0].value && autoFillText(canvasCtx, { x: canvasPadding + cellWidth + cellPadding, width: 2 * (cellWidth - cellPadding), y: 150 + (i + 1 / 2) * cellHeight, text: structArr[i][0].value || '', textAlign: 'left', height: cellHeight, lineHeight: cellHeight / 2, fontSize: '20px', color: '#333' });
+			structArr[i][1].value && autoFillText(canvasCtx, { x: canvasPadding + 4 * cellWidth + cellPadding, width: 2 * (cellWidth - cellPadding), y: 150 + (i + 1 / 2) * cellHeight, text: structArr[i][1].value || '', textAlign: 'left', height: cellHeight, lineHeight: cellHeight / 2, fontSize: '20px', color: '#333' });
 
 
 		}
