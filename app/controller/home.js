@@ -365,8 +365,8 @@ const historyVersion = async ctx => {
 class HomeController extends Controller {
 	async index() {
 		const { ctx } = this;
-		// ctx.body = 'hi, egg';
-		ctx.redirect('/public/apidoc/index.html');
+		ctx.body = 'hi, egg';
+		// ctx.redirect('/public/apidoc/index.html');
 	}
 
 	async historyBill() {
